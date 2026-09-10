@@ -1,0 +1,848 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="大学入試 現代文（評論）のキーワード182語を8分野で引ける辞典。暗記カード・四択テスト・分野別の進捗つき。">
+<title>現代文キーワード辞典</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+:root{
+  --paper:#F2F2EE; --surface:#FBFBF8; --surface-2:#E9EAE4;
+  --ink:#17202A; --ink-2:#4A5560; --ink-3:#7B848D;
+  --rule:#D6D8D0; --rule-2:#C3C6BD;
+  --ai:#27466F; --ai-soft:#E1E8F1;
+  --shu:#B0442C; --shu-soft:#F4E2DD;
+  --yama:#8C6A10; --yama-soft:#F0E8D1;
+  --tokiwa:#2F6B4F; --tokiwa-soft:#DFEAE2;
+  --c-gengo:#1F6360; --c-kagaku:#2F6B4F; --c-kindai:#5B4780;
+  --c-nihon:#8C6A10; --c-geijutsu:#8A3E56; --c-bungaku:#9B4A2F;
+  --c-ronri:#27466F; --c-kanji:#5C6470;
+  --serif:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif;
+  --sans:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  --shadow:0 1px 2px rgba(23,32,42,.06),0 8px 24px -12px rgba(23,32,42,.18);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#12161A; --surface:#1A1F25; --surface-2:#232A31;
+    --ink:#E7E9E4; --ink-2:#AEB6BD; --ink-3:#7E878F;
+    --rule:#2C343B; --rule-2:#3A434B;
+    --ai:#8FB0D8; --ai-soft:#1D293A;
+    --shu:#E08265; --shu-soft:#38231C;
+    --yama:#D5AC4F; --yama-soft:#332913;
+    --tokiwa:#7FBE9A; --tokiwa-soft:#183026;
+    --c-gengo:#6FBDB6; --c-kagaku:#7FBE9A; --c-kindai:#AC99D6;
+    --c-nihon:#D5AC4F; --c-geijutsu:#D28FA4; --c-bungaku:#DE9270;
+    --c-ronri:#8FB0D8; --c-kanji:#9AA4AF;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#12161A; --surface:#1A1F25; --surface-2:#232A31;
+  --ink:#E7E9E4; --ink-2:#AEB6BD; --ink-3:#7E878F;
+  --rule:#2C343B; --rule-2:#3A434B;
+  --ai:#8FB0D8; --ai-soft:#1D293A;
+  --shu:#E08265; --shu-soft:#38231C;
+  --yama:#D5AC4F; --yama-soft:#332913;
+  --tokiwa:#7FBE9A; --tokiwa-soft:#183026;
+  --c-gengo:#6FBDB6; --c-kagaku:#7FBE9A; --c-kindai:#AC99D6;
+  --c-nihon:#D5AC4F; --c-geijutsu:#D28FA4; --c-bungaku:#DE9270;
+  --c-ronri:#8FB0D8; --c-kanji:#9AA4AF;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);
+  font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;
+  font-feature-settings:"palt" 1;}
+.wrap{max-width:940px;margin:0 auto;padding:0 20px 80px}
+h1,h2,h3{margin:0;text-wrap:balance}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:none}
+:focus-visible{outline:2px solid var(--ai);outline-offset:2px;border-radius:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ── 柱 ── */
+.masthead{display:flex;align-items:flex-end;justify-content:space-between;
+  gap:20px;flex-wrap:wrap;padding:34px 0 16px;border-bottom:2px solid var(--ink)}
+.brand h1{font-family:var(--serif);font-weight:700;font-size:clamp(27px,4.6vw,40px);
+  line-height:1.2;letter-spacing:.04em}
+.brand p{margin:6px 0 0;font-size:12px;letter-spacing:.16em;color:var(--ink-3);
+  text-transform:uppercase}
+.mast-right{display:flex;align-items:center;gap:14px;padding-bottom:6px}
+.count{font-size:12.5px;color:var(--ink-2);letter-spacing:.06em;font-variant-numeric:tabular-nums}
+.count b{font-family:var(--serif);font-size:19px;color:var(--ai);font-weight:700}
+.theme-btn{border:1px solid var(--rule-2);border-radius:999px;padding:5px 13px;
+  font-size:12px;color:var(--ink-2);background:var(--surface)}
+.theme-btn:hover{border-color:var(--ai);color:var(--ai)}
+
+/* ── 爪索引 ── */
+.tabs{display:flex;gap:3px;margin-top:-1px;flex-wrap:wrap}
+.tab{position:relative;padding:11px 20px 10px;font-size:14px;font-weight:500;
+  color:var(--ink-2);background:var(--surface-2);
+  border-radius:0 0 4px 4px;border:1px solid var(--rule);border-top:none;
+  box-shadow:inset 0 -3px 0 transparent}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{background:var(--surface);color:var(--ai);font-weight:700;
+  box-shadow:inset 0 -3px 0 var(--ai)}
+.tab .tnum{font-size:11px;color:var(--ink-3);margin-left:7px;font-variant-numeric:tabular-nums}
+.tab[aria-selected="true"] .tnum{color:var(--ai)}
+
+.panel{padding-top:26px}
+.panel[hidden]{display:none!important}
+
+/* ── 検索・絞り込み ── */
+.filters{display:flex;flex-direction:column;gap:13px;padding-bottom:18px;
+  border-bottom:1px solid var(--rule)}
+.searchbox{position:relative}
+.searchbox input{width:100%;padding:11px 14px 11px 38px;font:inherit;font-size:15px;
+  color:var(--ink);background:var(--surface);border:1px solid var(--rule-2);border-radius:3px}
+.searchbox input::placeholder{color:var(--ink-3)}
+.searchbox input:focus{border-color:var(--ai);outline:none;box-shadow:0 0 0 3px var(--ai-soft)}
+.searchbox svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);
+  width:16px;height:16px;stroke:var(--ink-3);fill:none;stroke-width:1.8}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;font-size:12.5px;
+  color:var(--ink-2);background:var(--surface);border:1px solid var(--rule);border-radius:999px}
+.chip:hover{border-color:var(--rule-2);color:var(--ink)}
+.chip .dot{width:8px;height:8px;border-radius:2px;background:var(--dotc,var(--ink-3))}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip[aria-pressed="true"] .dot{background:var(--paper)}
+.seg{display:inline-flex;border:1px solid var(--rule);border-radius:3px;overflow:hidden;
+  background:var(--surface)}
+.seg button{padding:5px 13px;font-size:12.5px;color:var(--ink-2);
+  border-right:1px solid var(--rule)}
+.seg button:last-child{border-right:none}
+.seg button[aria-pressed="true"]{background:var(--ai-soft);color:var(--ai);font-weight:700}
+.filter-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.hint{font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+
+/* ── 見出し語欄 ── */
+.entries{display:flex;flex-direction:column}
+.entry{display:grid;grid-template-columns:3px 1fr;gap:0 18px;
+  padding:20px 0 20px 0;border-bottom:1px solid var(--rule)}
+.entry .spine{background:var(--cat,var(--ink-3));border-radius:2px;opacity:.85}
+.entry-body{min-width:0}
+.e-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.yomi{display:block;font-size:11.5px;letter-spacing:.14em;color:var(--ink-3);margin-bottom:1px}
+.word{font-family:var(--serif);font-weight:700;font-size:25px;line-height:1.3;letter-spacing:.02em}
+.catlab{font-size:11px;letter-spacing:.1em;color:var(--cat,var(--ink-3))}
+.mean{margin:9px 0 0;max-width:62ch}
+.ex{margin:9px 0 0;padding-left:14px;border-left:2px solid var(--shu);
+  font-size:13.5px;color:var(--ink-2);max-width:62ch}
+.ex b{color:var(--shu);font-weight:500;font-size:11px;letter-spacing:.12em;
+  display:block;margin-bottom:1px}
+.rel{margin-top:9px;font-size:12.5px;color:var(--ink-2)}
+.rel span{background:var(--surface-2);border-radius:3px;padding:2px 8px;margin-right:6px;
+  display:inline-block;color:var(--ink-2)}
+.e-foot{display:flex;justify-content:flex-end;margin-top:10px}
+.marks{display:inline-flex;gap:0;border:1px solid var(--rule);border-radius:3px;overflow:hidden}
+.marks button{padding:4px 12px;font-size:11.5px;color:var(--ink-3);border-right:1px solid var(--rule)}
+.marks button:last-child{border-right:none}
+.marks button:hover{background:var(--surface-2)}
+.marks button[aria-pressed="true"][data-lv="1"]{background:var(--shu-soft);color:var(--shu);font-weight:700}
+.marks button[aria-pressed="true"][data-lv="2"]{background:var(--yama-soft);color:var(--yama);font-weight:700}
+.marks button[aria-pressed="true"][data-lv="3"]{background:var(--tokiwa-soft);color:var(--tokiwa);font-weight:700}
+.empty{padding:60px 0;text-align:center;color:var(--ink-3);font-size:14px}
+.empty b{display:block;font-family:var(--serif);font-size:20px;color:var(--ink-2);margin-bottom:6px}
+
+/* ── 暗記カード ── */
+.study{display:flex;flex-direction:column;gap:20px;align-items:center}
+.study-bar{width:100%;display:flex;align-items:center;gap:14px;justify-content:space-between;
+  flex-wrap:wrap}
+.progline{flex:1;min-width:160px;height:3px;background:var(--surface-2);border-radius:2px;overflow:hidden}
+.progline i{display:block;height:100%;background:var(--ai);transition:width .3s}
+.card{width:100%;max-width:620px;min-height:330px;background:var(--surface);
+  border:1px solid var(--rule);border-left:4px solid var(--cat,var(--ai));border-radius:4px;
+  box-shadow:var(--shadow);padding:38px 34px;display:flex;flex-direction:column;
+  justify-content:center;text-align:center;gap:16px;cursor:pointer}
+.card:hover{border-color:var(--rule-2);border-left-color:var(--cat,var(--ai))}
+.card .c-yomi{font-size:12.5px;letter-spacing:.2em;color:var(--ink-3)}
+.card .c-word{font-family:var(--serif);font-weight:700;font-size:clamp(34px,7vw,52px);
+  line-height:1.25;letter-spacing:.06em}
+.card .c-tap{font-size:12px;color:var(--ink-3);letter-spacing:.1em}
+.card .c-mean{font-size:16px;line-height:1.85;max-width:46ch;margin:0 auto;text-align:left}
+.card .c-ex{font-size:13.5px;color:var(--ink-2);text-align:left;max-width:46ch;margin:0 auto;
+  border-left:2px solid var(--shu);padding-left:13px}
+.card .c-rel{font-size:12.5px;color:var(--ink-3)}
+.card .divider{width:44px;height:1px;background:var(--rule-2);margin:0 auto}
+.answers{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.ans{padding:11px 26px;border-radius:3px;font-size:14px;font-weight:500;border:1px solid}
+.ans[data-lv="1"]{color:var(--shu);border-color:var(--shu);background:var(--shu-soft)}
+.ans[data-lv="2"]{color:var(--yama);border-color:var(--yama);background:var(--yama-soft)}
+.ans[data-lv="3"]{color:var(--tokiwa);border-color:var(--tokiwa);background:var(--tokiwa-soft)}
+.ans:hover{filter:brightness(.96)}
+.mini{font-size:12.5px;color:var(--ink-2);border:1px solid var(--rule-2);
+  border-radius:3px;padding:5px 13px;background:var(--surface)}
+.mini:hover{border-color:var(--ai);color:var(--ai)}
+
+/* ── 四択 ── */
+.quiz{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.q-meta{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;
+  color:var(--ink-3);letter-spacing:.08em;font-variant-numeric:tabular-nums}
+.q-stem{background:var(--surface);border:1px solid var(--rule);border-radius:4px;
+  padding:26px 24px;text-align:center}
+.q-label{font-size:11px;letter-spacing:.16em;color:var(--ink-3);margin-bottom:10px}
+.q-text{font-family:var(--serif);font-size:clamp(20px,3.6vw,27px);font-weight:700;
+  line-height:1.6;letter-spacing:.03em}
+.q-text.small{font-family:var(--sans);font-size:16px;font-weight:400;line-height:1.8;
+  letter-spacing:0;text-align:left}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{text-align:left;padding:14px 16px;border:1px solid var(--rule-2);border-radius:3px;
+  background:var(--surface);display:flex;gap:13px;align-items:flex-start;line-height:1.7}
+.opt:hover:not(:disabled){border-color:var(--ai);background:var(--ai-soft)}
+.opt:disabled{cursor:default}
+.opt .n{font-size:12px;color:var(--ink-3);font-weight:700;padding-top:3px;min-width:14px}
+.opt.correct{border-color:var(--tokiwa);background:var(--tokiwa-soft);color:var(--tokiwa);font-weight:500}
+.opt.correct .n{color:var(--tokiwa)}
+.opt.wrong{border-color:var(--shu);background:var(--shu-soft);color:var(--shu)}
+.opt.wrong .n{color:var(--shu)}
+.q-feedback{border-left:3px solid var(--ai);background:var(--surface);padding:14px 16px;
+  font-size:14px;border-radius:0 3px 3px 0}
+.q-feedback .fw{font-family:var(--serif);font-weight:700;font-size:17px;margin-bottom:4px}
+.result{text-align:center;background:var(--surface);border:1px solid var(--rule);
+  border-radius:4px;padding:40px 24px;display:flex;flex-direction:column;gap:8px;align-items:center}
+.score{font-family:var(--serif);font-size:60px;font-weight:700;line-height:1;color:var(--ai);
+  font-variant-numeric:tabular-nums}
+.score small{font-size:22px;color:var(--ink-3)}
+.result .misses{margin-top:14px;text-align:left;width:100%;max-width:420px;
+  border-top:1px solid var(--rule);padding-top:14px}
+.result .misses h4{margin:0 0 8px;font-size:11px;letter-spacing:.16em;color:var(--shu);font-weight:700}
+.result .misses li{font-size:13.5px;color:var(--ink-2);margin-bottom:4px}
+.result .misses b{font-family:var(--serif);color:var(--ink);font-size:15px}
+
+/* ── 進捗 ── */
+.prog{display:flex;flex-direction:column;gap:28px}
+.tally{display:flex;gap:0;border:1px solid var(--rule);border-radius:4px;overflow:hidden;
+  background:var(--surface)}
+.tally div{flex:1;padding:18px 14px;text-align:center;border-right:1px solid var(--rule)}
+.tally div:last-child{border-right:none}
+.tally .n{font-family:var(--serif);font-size:32px;font-weight:700;line-height:1.1;
+  font-variant-numeric:tabular-nums}
+.tally .l{font-size:11.5px;letter-spacing:.12em;color:var(--ink-3);margin-top:4px}
+.bars{display:flex;flex-direction:column;gap:14px}
+.bar-row{display:grid;grid-template-columns:minmax(126px,auto) 1fr auto;gap:14px;align-items:center}
+.bar-row .nm{font-size:13px;color:var(--ink-2)}
+.track{height:9px;background:var(--surface-2);border-radius:2px;overflow:hidden;display:flex}
+.track i{display:block;height:100%}
+.track .l3{background:var(--tokiwa)} .track .l2{background:var(--yama)} .track .l1{background:var(--shu)}
+.bar-row .pc{font-size:12.5px;color:var(--ink-3);font-variant-numeric:tabular-nums;min-width:42px;text-align:right}
+.sect-h{font-family:var(--serif);font-size:18px;font-weight:700;letter-spacing:.06em;
+  padding-bottom:8px;border-bottom:1px solid var(--rule);margin-bottom:14px}
+.weak{display:flex;flex-wrap:wrap;gap:8px}
+.weak a{display:inline-flex;align-items:baseline;gap:8px;font-family:var(--serif);font-size:16px;
+  font-weight:500;color:var(--ink);background:var(--shu-soft);border:1px solid var(--shu);
+  border-radius:3px;padding:5px 12px;text-decoration:none}
+.weak a small{font-family:var(--sans);font-size:11px;color:var(--shu);font-variant-numeric:tabular-nums}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--ink-3)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;
+  vertical-align:-1px}
+.danger{border:1px solid var(--shu);color:var(--shu);border-radius:3px;padding:7px 15px;
+  font-size:12.5px;align-self:flex-start;background:transparent}
+.danger:hover{background:var(--shu-soft)}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+  font-size:12px;color:var(--ink-3);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media(max-width:560px){
+  .entry{grid-template-columns:3px 1fr;gap:0 13px}
+  .word{font-size:22px}
+  .tally{flex-wrap:wrap}
+  .tally div{flex:1 1 44%;border-bottom:1px solid var(--rule)}
+  .bar-row{grid-template-columns:1fr;gap:5px}
+  .bar-row .pc{text-align:left}
+}
+</style>
+<style>
+/* ブラウザ既定のならし。artifact 版のラッパーが与えていたものを明示しておく */
+:root{color-scheme:light dark}
+body{margin:0;padding:0}
+img{max-width:100%}
+[hidden]:not([hidden=until-found]){display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <div class="brand">
+      <h1>現代文キーワード辞典</h1>
+      <p>Keywords for Japanese critical reading</p>
+    </div>
+    <div class="mast-right">
+      <span class="count">収録 <b id="totalCount">0</b> 語</span>
+      <button class="theme-btn" id="themeBtn" type="button">表示切替</button>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="学習モード">
+    <button class="tab" role="tab" id="tab-dict" aria-controls="p-dict" aria-selected="true">辞典<span class="tnum" id="tn-dict"></span></button>
+    <button class="tab" role="tab" id="tab-card" aria-controls="p-card" aria-selected="false">暗記カード</button>
+    <button class="tab" role="tab" id="tab-quiz" aria-controls="p-quiz" aria-selected="false">四択テスト</button>
+    <button class="tab" role="tab" id="tab-prog" aria-controls="p-prog" aria-selected="false">進捗<span class="tnum" id="tn-prog"></span></button>
+  </nav>
+
+  <!-- 辞典 -->
+  <section class="panel" id="p-dict" role="tabpanel" aria-labelledby="tab-dict">
+    <div class="filters">
+      <div class="searchbox">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></svg>
+        <input type="search" id="q" placeholder="語・読み・意味で検索（例：そがい、恣意、パラダイム）" aria-label="キーワード検索">
+      </div>
+      <div class="chips" id="catChips" role="group" aria-label="分野で絞り込む"></div>
+      <div class="filter-row">
+        <div class="seg" id="statusSeg" role="group" aria-label="習得状況で絞り込む">
+          <button type="button" data-st="all" aria-pressed="true">すべて</button>
+          <button type="button" data-st="1" aria-pressed="false">まだ</button>
+          <button type="button" data-st="2" aria-pressed="false">あいまい</button>
+          <button type="button" data-st="3" aria-pressed="false">覚えた</button>
+          <button type="button" data-st="0" aria-pressed="false">未仕分け</button>
+        </div>
+        <span class="hint" id="dictHint"></span>
+      </div>
+    </div>
+    <div class="entries" id="entries"></div>
+  </section>
+
+  <!-- 暗記カード -->
+  <section class="panel" id="p-card" role="tabpanel" aria-labelledby="tab-card" hidden>
+    <div class="study">
+      <div class="study-bar">
+        <span class="hint" id="deckPos">1 / 1</span>
+        <div class="progline"><i id="deckBar" style="width:0%"></i></div>
+        <button class="mini" id="reshuffle" type="button">この条件で組み直す</button>
+      </div>
+      <div class="card" id="card" tabindex="0" role="button" aria-label="カードをめくる"></div>
+      <div class="answers" id="cardAns" hidden>
+        <button class="ans" data-lv="1" type="button">まだ</button>
+        <button class="ans" data-lv="2" type="button">あいまい</button>
+        <button class="ans" data-lv="3" type="button">覚えた</button>
+      </div>
+      <span class="hint">カードをクリック（またはスペース）で語義を表示。仕分けは辞典の絞り込み条件に従います。</span>
+    </div>
+  </section>
+
+  <!-- 四択 -->
+  <section class="panel" id="p-quiz" role="tabpanel" aria-labelledby="tab-quiz" hidden>
+    <div class="quiz" id="quiz"></div>
+  </section>
+
+  <!-- 進捗 -->
+  <section class="panel" id="p-prog" role="tabpanel" aria-labelledby="tab-prog" hidden>
+    <div class="prog" id="prog"></div>
+  </section>
+
+  <footer>
+    <span>学習状況はこの端末のブラウザにのみ保存されます。</span>
+    <span>大学入試 現代文 ／ 評論キーワード</span>
+  </footer>
+</div>
+
+<script>
+const CATS=[
+ {id:"gengo",   name:"言語とコミュニケーション", v:"--c-gengo"},
+ {id:"kagaku",  name:"科学と人間",             v:"--c-kagaku"},
+ {id:"kindai",  name:"近代・国際・異文化",       v:"--c-kindai"},
+ {id:"nihon",   name:"日本と伝統文化",          v:"--c-nihon"},
+ {id:"geijutsu",name:"芸術",                  v:"--c-geijutsu"},
+ {id:"bungaku", name:"文学表現",               v:"--c-bungaku"},
+ {id:"ronri",   name:"論理・思考",              v:"--c-ronri"},
+ {id:"kanji",   name:"頻出漢字語",              v:"--c-kanji"}
+];
+const W=[
+/* ── 言語とコミュニケーション ── */
+["記号","きごう","何かの代わりとなって意味を伝えるもの。音や文字と、意味との結びつきからなる。","言葉は世界を写す鏡ではなく、差異からなる記号の体系である。","関連：恣意的・コード","gengo"],
+["分節","ぶんせつ","言語が、連続した世界を区切り、意味あるまとまりに切り分けること。","虹が何色に見えるかは、言語による分節の違いによる。","関連：差異・恣意的","gengo"],
+["シニフィアン／シニフィエ","しにふぃあん・しにふぃえ","記号の、音や文字としての面（シニフィアン）と、意味としての面（シニフィエ）。","両者の結びつきに必然性はない――これが言語の恣意性である。","関連：記号・恣意的","gengo"],
+["文脈","ぶんみゃく","語や文の意味を決める、前後のつながりや背景。コンテクスト。","同じ一語も、文脈によって正反対の意味をもつ。","≒コンテクスト","gengo"],
+["コード","こーど","意味を伝えるために社会で共有されている、約束事の体系。","服装は、その社会のコードを読ませる記号である。","関連：記号","gengo"],
+["コミュニケーション","こみゅにけーしょん","記号を介して意味や感情をやりとりし、共有しようとする働き。","コミュニケーションは情報の伝達ではなく、意味の共同生成である。","関連：記号・対話","gengo"],
+["対話","たいわ","立場の異なる者どうしが、互いの前提を問い直しながら言葉を交わすこと。","対話とは、相手によって自分が変わることを引き受ける営みだ。","⇔独白／関連：他者","gengo"],
+["言説","げんせつ","ある時代・社会で、何をどう語れるかを規定している言葉のまとまり。ディスクール。","「健康」をめぐる言説が、人々の身体を管理していく。","関連：権力・イデオロギー","gengo"],
+["エクリチュール","えくりちゅーる","書かれた言葉。書き手を離れて独り歩きし、読まれ直されていく。","エクリチュールは、作者の意図を超えて読まれてしまう。","⇔パロール（話し言葉）","gengo"],
+["物語","ものがたり","出来事を筋道立てて意味づける、語りの枠組み。ナラティブ。","病の経験は、物語として語られてはじめて引き受けられる。","関連：語り手・ポストモダン","gengo"],
+["表象","ひょうしょう","心に思い浮かべられた像。また、それを外に表した形。","異国はつねに、こちら側の表象として語られてきた。","関連：イメージ・言説","gengo"],
+["ステレオタイプ","すてれおたいぷ","単純化され固定化された、紋切り型のイメージ。","報道は、しばしば異文化のステレオタイプを再生産する。","関連：偏見・表象","gengo"],
+["メディア","めでぃあ","情報を媒介するもの。それ自体が伝わり方を規定する。","メディアは中立な管ではなく、内容そのものを形づくる。","関連：リテラシー","gengo"],
+["リテラシー","りてらしー","情報を読み解き、活用する能力。","広告を鵜呑みにしないメディア・リテラシーが要る。","関連：メディア","gengo"],
+["情報化社会","じょうほうかしゃかい","物よりも情報が価値の中心となり、その量と速度が生活を規定する社会。","情報化社会では、選ぶ自由がかえって人を疲弊させる。","関連：メディア・消費社会","gengo"],
+["翻訳","ほんやく","ある言語の表現を別の言語へ移しかえること。分節の仕方が違う以上、完全には移しきれない。","翻訳とは、こぼれ落ちるものを引き受ける作業である。","関連：分節・異文化","gengo"],
+["母語","ぼご","生まれ育つ中で自然に身につけた言語。ものの見方の枠組みそのものになる。","母語は、道具である以前に世界の分け方そのものだ。","関連：分節・アイデンティティ","gengo"],
+["ロゴス","ろごす","言葉・論理・理性。西洋思想が重んじてきた原理。","ロゴス中心の思考は、身体や感情を軽んじてきた。","⇔パトス（情念）","gengo"],
+/* ── 科学と人間 ── */
+["自然","しぜん","人間の手が加わらず、それ自体の力で生成するもの。西洋近代では支配と利用の対象とされた。","近代は自然を、法則に従う客体として計算可能にした。","⇔人為・文化","kagaku"],
+["機械論","きかいろん","世界を部品の集まりとみなし、因果法則によって説明する見方。","機械論的自然観は、自然から意味を奪った。","⇔有機体論","kagaku"],
+["有機的","ゆうきてき","部分が互いに関連し合い、全体として一つの働きをなすさま。","都市は有機的なつながりを失い、機能ごとに分断された。","⇔機械的","kagaku"],
+["要素還元主義","ようそかんげんしゅぎ","全体を部分に分解すれば理解できるとする考え方。","要素還元主義では、生命の全体性はとらえられない。","関連：還元・機械論","kagaku"],
+["因果関係","いんがかんけい","原因と結果の結びつき。相関関係と混同されやすい。","相関があるからといって、因果関係があるとは限らない。","⇔相関関係","kagaku"],
+["仮説","かせつ","事実を説明するために、暫定的に立てられる説明。","仮説は、反証されうるものでなければならない。","関連：実証・反証可能性","kagaku"],
+["実証","じっしょう","観察や実験など、事実によって確かめること。","実証されない主張は、科学の言葉にはならない。","関連：仮説","kagaku"],
+["反証可能性","はんしょうかのうせい","誤りであると示す方法がある、ということ。科学的な仮説の条件とされる。","反証できない主張は、正しいのではなく科学ではない。","関連：仮説・実証","kagaku"],
+["パラダイム","ぱらだいむ","ある時代の科学者たちが共有している、ものの見方の枠組み。","科学は、パラダイムの転換によって不連続に進む。","関連：枠組み・進歩","kagaku"],
+["対象化","たいしょうか","自分から切り離し、観察・操作できる「もの」として扱うこと。","自然を対象化した瞬間、人はそこから追放された。","≒客体化／関連：客体","kagaku"],
+["技術","ぎじゅつ","自然に働きかけ、目的にかなうものへと作り変える手段。それ自体が目的化しやすい。","技術は、できることを次々に「すべきこと」に変えていく。","関連：効率・進歩","kagaku"],
+["効率","こうりつ","かけた労力に対して得られる成果の割合。","効率という物差しは、測れないものを無価値にする。","関連：合理主義","kagaku"],
+["進歩","しんぽ","歴史は絶えずよい方向へ進むという、近代特有の信念を含む語。","進歩という物語が信じられなくなったのが現代だ。","関連：近代・ポストモダン","kagaku"],
+["リスク","りすく","将来起こりうる危険を、確率として計算し管理しようとする捉え方。","近代は不安をリスクへと翻訳し、計算可能なものに変えた。","関連：蓋然性・技術","kagaku"],
+["生命倫理","せいめいりんり","医療や生命科学の進歩が突きつける、生と死をめぐる是非を問う領域。","延命技術の進歩が、かえって死の定義を揺るがせた。","関連：技術・自然","kagaku"],
+["生態系","せいたいけい","生物と環境が互いに関わり合って成り立つ、ひとつづきの系。エコロジー。","人間もまた生態系の一部でしかない。","関連：有機的・環境","kagaku"],
+["環境","かんきょう","生き物を取り巻き、それと作用し合う外界。人間を主体、自然を背景とみなす含みもある。","環境という語自体が、人間を中心に世界を切り分けている。","関連：生態系・人間中心主義","kagaku"],
+["人間中心主義","にんげんちゅうしんしゅぎ","自然を、人間のための資源・手段とみなす考え方。","環境問題は人間中心主義への反省を迫る。","⇔生態中心／関連：ヒューマニズム","kagaku"],
+["不可逆","ふかぎゃく","もとの状態には二度と戻れないこと。","環境の破壊は、しばしば不可逆的である。","⇔可逆","kagaku"],
+/* ── 近代・国際・異文化 ── */
+["近代","きんだい","身分秩序が崩れ、個人・理性・科学を基盤として成立した時代。","近代は、個人を共同体から解き放つと同時に孤独にした。","⇔前近代／ポストモダン","kindai"],
+["合理主義","ごうりしゅぎ","感情や伝統ではなく、理性と論理によって判断する立場。","合理主義は効率を高めたが、割り切れないものを切り捨てた。","関連：理性・近代","kindai"],
+["啓蒙","けいもう","無知や迷信から人々を解き放ち、理性の光によって導くこと。","啓蒙思想は人間の理性への信頼を基盤としていた。","関連：理性・近代","kindai"],
+["理性","りせい","感情や欲望に流されず、筋道を立てて判断する能力。","理性は自然を支配する道具にもなりうる。","⇔感性・情念","kindai"],
+["感性","かんせい","外界を感覚を通して受けとめ、感じ取る働き。","理性では割り切れない感性の領域。","⇔理性","kindai"],
+["自我","じが","他者や世界から区別された、「私」という意識のまとまり。","近代文学は、揺らぐ自我をこそ描いてきた。","関連：内面・アイデンティティ","kindai"],
+["主体","しゅたい","自ら考え、働きかける側。","歴史をつくる主体としての人間。","⇔客体","kindai"],
+["客体","きゃくたい","主体の働きかけを受ける対象。","自然を客体として操作の対象とみなす。","⇔主体／関連：対象化","kindai"],
+["二元論","にげんろん","世界を、精神と物質など二つの原理に分けて説明する考え方。","デカルト以来の心身二元論が、自然を客体へと変えた。","関連：二項対立・主客","kindai"],
+["疎外","そがい","人間が自ら生み出したものに逆に支配され、本来の自分から引き離されること。","労働の疎外とは、働くことが自己実現でなくなる事態をいう。","関連：物象化・近代","kindai"],
+["実存","じつぞん","一般的な本質ではなく、いま・ここに生きる個別の「私」のあり方。","実存は本質に先立つ。","関連：主体・自我","kindai"],
+["アイデンティティ","あいでんてぃてぃ","自分が自分であることの確かさ。自己同一性。","故郷を失うことは、アイデンティティの喪失を意味した。","関連：自我・他者","kindai"],
+["イデオロギー","いでおろぎー","ある立場や階級の利害を反映した、体系化された思想・信念。しばしば「偏り」の含みをもつ。","中立を装う言説にも、必ずイデオロギーが潜む。","関連：言説・権力","kindai"],
+["ヒューマニズム","ひゅーまにずむ","人間の尊厳と自由を何よりも尊重する立場。人間中心主義。","ヒューマニズムは、裏返せば人間中心主義でもある。","関連：人間中心主義","kindai"],
+["功利主義","こうりしゅぎ","行為の善悪を、それがもたらす幸福の総量で判断する立場。","功利主義は少数者の犠牲を正当化しかねない。","関連：合理主義","kindai"],
+["ニヒリズム","にひりずむ","いっさいの価値や意味を認めない、虚無的な態度。","価値の崩壊はニヒリズムを招く。","関連：相対主義","kindai"],
+["相対主義","そうたいしゅぎ","価値や真理は文化や立場によって異なり、絶対的な基準はないとする立場。","相対主義を徹底すれば、批判の足場すら失われる。","関連：相対化・ニヒリズム","kindai"],
+["ポストモダン","ぽすともだん","近代が信じた理性・進歩・普遍という「大きな物語」を疑う思潮。","ポストモダンは、普遍への信頼が崩れた後の思考である。","⇔近代","kindai"],
+["世俗化","せぞくか","宗教が社会や個人に及ぼす力が弱まっていくこと。","世俗化した社会では、死は語りにくいものとなった。","関連：近代","kindai"],
+["文化","ぶんか","人間が集団の中で作り出し、受け継いできた生活の様式や価値観。地域ごとの固有性を含む。","文化に優劣はなく、あるのは差異だけだ。","対比：文明","kindai"],
+["文明","ぶんめい","技術や制度の発達によって普遍化・合理化された、物質的な豊かさの体系。","文明は普遍へ、文化は固有へと向かう。","対比：文化","kindai"],
+["他者","たしゃ","自分とは決して同じにならない存在。理解しきれないからこそ、自己を問い直させる。","他者とは、私の理解をこえて存在する者のことだ。","関連：差異・共感","kindai"],
+["差異","さい","他との違い。それ自体が意味や価値を生み出すもの。","記号の意味は、他の記号との差異によって決まる。","関連：記号・分節","kindai"],
+["オリエンタリズム","おりえんたりずむ","西洋が東洋を、神秘的で受動的な「他者」として作り上げてきた見方。","オリエンタリズムは、語る側の欲望を語られる側に映し出す。","関連：表象・他者・権力","kindai"],
+["文化相対主義","ぶんかそうたいしゅぎ","それぞれの文化を、その文化自身の基準によって理解しようとする立場。","文化相対主義は、優劣の物差しを手放すところから始まる。","⇔自民族中心主義","kindai"],
+["自民族中心主義","じみんぞくちゅうしんしゅぎ","自分の文化の基準で他文化を測り、劣ったものとみなす態度。エスノセントリズム。","「未開」という言葉自体が、自民族中心主義の産物である。","⇔文化相対主義","kindai"],
+["多文化主義","たぶんかしゅぎ","一つの社会の中で、複数の文化が対等に共存することを目指す考え方。","多文化主義は、共存の理想と分断の危険を同時に抱える。","関連：包摂・グローバリゼーション","kindai"],
+["グローバリゼーション","ぐろーばりぜーしょん","人・物・情報が国境を越え、地球規模で結びついていく動き。","グローバリゼーションは、均質化と差異の噴出を同時に進める。","関連：画一化・文化","kindai"],
+["包摂","ほうせつ","異質なものを排除せず、内側に含み込むこと。","排除ではなく包摂へと社会は舵を切るべきだ。","⇔排除","kindai"],
+["排除","はいじょ","異質なものを、共同体の外へ締め出すこと。","共同体は、他者を排除することで一体感を保つ。","⇔包摂","kindai"],
+["共同体","きょうどうたい","血縁や地縁で結ばれ、成員が一体感をもつ集団。","近代は、共同体から個人を解き放った代償に孤独を生んだ。","⇔機能集団／関連：近代","kindai"],
+["制度","せいど","社会の中で定められ、人々の行動を枠づける仕組み。","家族もまた、自然ではなく歴史的な制度である。","関連：規範・慣習","kindai"],
+["規範","きはん","「こうすべきだ」という、社会に共有された行動の基準。","規範は、内面化されてはじめて力をもつ。","関連：制度・慣習","kindai"],
+["権力","けんりょく","人々の行動や思考を、目に見えない形でも方向づける力。","権力は禁じるだけでなく、望ましい主体を作り出す。","関連：言説・制度","kindai"],
+["公共性","こうきょうせい","特定の誰かのものではなく、すべての人に開かれていること。","公共性とは、異質な他者と共に在るための空間である。","関連：他者・市民社会","kindai"],
+["大衆","たいしゅう","均質化され、匿名的で受動的な多数の人々。","大衆は、あたえられた欲望を自分の欲望と信じる。","⇔市民・公衆","kindai"],
+["匿名性","とくめいせい","誰であるかが問われないまま存在できる、都市や情報空間の性格。","匿名性は自由をもたらすと同時に、無責任をも生む。","関連：都市・大衆","kindai"],
+["画一化","かくいつか","すべてが同じ型にそろえられていくこと。","効率の追求は、街並みの画一化を招いた。","⇔多様化","kindai"],
+["消費社会","しょうひしゃかい","物が、必要のためではなく記号としての価値のために消費される社会。","消費社会では、人は物ではなく差異を買っている。","関連：記号・差異","kindai"],
+/* ── 日本と伝統文化 ── */
+["世間","せけん","個人を取り巻き、暗黙の了解によって行動を縛る、日本的な人間関係の場。","世間は、法よりも強く人を律することがある。","対比：社会（近代的）","nihon"],
+["恥の文化","はじのぶんか","他者の目を基準として行動を律する文化。「罪の文化」と対比される。","恥の文化では、見られていないところで規範はゆるむ。","⇔罪の文化","nihon"],
+["甘え","あまえ","相手が受け入れてくれることを前提に、寄りかかろうとする心の動き。","甘えの構造が、日本的な人間関係を支えてきた。","関連：世間・共同体","nihon"],
+["慣習","かんしゅう","長く繰り返されて定着した、その社会のならわし。","慣習は理由を問われないまま人を従わせる。","関連：伝統","nihon"],
+["伝統","でんとう","過去から受け継がれてきたもの。しばしば近代になって作り出される。","伝統もまた、ある時期に発明されたものであることが多い。","関連：慣習・近代","nihon"],
+["通過儀礼","つうかぎれい","誕生・成人・結婚など、人生の節目で行われる儀式。","通過儀礼を失った社会では、大人になる境目が見えにくい。","関連：ハレとケ","nihon"],
+["ハレとケ","はれとけ","祭りなど非日常の「ハレ」と、日常の「ケ」という民俗学的な区分。","ハレとケの往復が、生活にリズムを与えていた。","関連：通過儀礼","nihon"],
+["禁忌","きんき","触れてはならない、口にしてはならないとされる事柄。タブー。","死は、近代社会における新たな禁忌となった。","≒タブー","nihon"],
+["アニミズム","あにみずむ","自然のあらゆる物に霊魂が宿るとする信仰。","アニミズム的な自然観は、自然を対象化しない。","⇔一神教的自然観","nihon"],
+["無常","むじょう","すべては移り変わり、とどまるものはないという仏教的な世界観。","無常観は、日本文学の底に流れ続けている。","関連：もののあはれ","nihon"],
+["もののあはれ","もののあわれ","事物にふれて自然にわき起こる、しみじみとした感動。平安文学の美意識。","もののあはれとは、移ろうものを移ろうままに受けとめる心だ。","関連：無常・美意識","nihon"],
+["幽玄","ゆうげん","言葉に表れない、奥深く微妙な余情の美。","幽玄とは、言い尽くさぬことによって生まれる深さである。","関連：余情・美意識","nihon"],
+["余情","よじょう","表現の背後に残る、言い尽くされない味わい。","省略が、かえって余情を生む。","関連：幽玄・間","nihon"],
+["侘び・寂び","わび・さび","不足や古びの中にこそ、静かで深い美を見いだす日本的な感覚。","欠けた茶碗に美を見るのが侘びの心である。","関連：美意識・幽玄","nihon"],
+["間","ま","何もない時間や空間そのものが、意味と緊張をもつという日本文化の感覚。","間の取り方が、能の緊張を生む。","関連：余情・余白","nihon"],
+["型","かた","伝統芸能や武道で、繰り返し身につけるべき定められた形。","型を極めた先にしか、型破りは生まれない。","関連：様式・伝統","nihon"],
+/* ── 芸術 ── */
+["美意識","びいしき","何を美しいと感じるかについての、その人・その文化の感覚。","余白を尊ぶのは、日本の美意識のあらわれだ。","関連：感性・幽玄","geijutsu"],
+["崇高","すうこう","美を超えて、圧倒的なものを前にしたときに生じる、畏怖をともなう感動。","嵐の海に人が感じるのは、美ではなく崇高である。","⇔優美／関連：美意識","geijutsu"],
+["模倣","もほう","すでにあるものをまねること。芸術は自然の模倣であるとされてきた。ミメーシス。","模倣を徹底した先に、独創が現れることがある。","⇔独創","geijutsu"],
+["独創","どくそう","誰の模倣でもない、その人だけの新しさ。","独創は無から生まれるのではなく、模倣の果てに生まれる。","⇔模倣","geijutsu"],
+["様式","ようしき","ある時代・地域・作家に共通してあらわれる、表現の型。スタイル。","様式は制約であると同時に、表現を支える土台でもある。","関連：型・写実","geijutsu"],
+["前衛","ぜんえい","既成の様式を壊し、新しい表現を切り開こうとする運動。アヴァンギャルド。","前衛はやがて古典となり、また壊される。","≒アヴァンギャルド","geijutsu"],
+["遠近法","えんきんほう","一つの視点から見た空間を、平面上に再現する近代西洋の技法。","遠近法は、世界を眺める特権的な「私」を作り出した。","関連：主体・近代","geijutsu"],
+["複製技術","ふくせいぎじゅつ","写真や印刷など、作品を大量に複製する技術。","複製技術は、作品から一回性を奪った。","関連：アウラ・技術","geijutsu"],
+["アウラ","あうら","いま・ここに一度きり在るものがまとう、近寄りがたい気配。","複製された作品からは、アウラが消え去る。","関連：複製技術","geijutsu"],
+["想像力","そうぞうりょく","直接経験していないものを思い描く力。他者の痛みを理解する働きにもつながる。","想像力とは、他者になりかわって考える力である。","関連：他者・共感","geijutsu"],
+["カタルシス","かたるしす","悲劇などに触れて感情が解放され、浄化されること。","観客は主人公の破滅にカタルシスを覚える。","≒浄化","geijutsu"],
+/* ── 文学表現 ── */
+["レトリック","れとりっく","効果的に伝えるための言葉の技法。修辞。","巧みなレトリックが、内容の乏しさを覆い隠す。","関連：比喩・修辞","bungaku"],
+["比喩","ひゆ","似たものにたとえて表す表現。隠喩・直喩・換喩など。","比喩は、未知のものを既知のものによって理解させる。","関連：隠喩・換喩","bungaku"],
+["隠喩","いんゆ","「ようだ」を用いず、直接たとえる比喩。メタファー。","「人生は旅だ」は隠喩である。","⇔直喩","bungaku"],
+["直喩","ちょくゆ","「ようだ」「ごとし」を用いて、たとえであることを明示する比喩。","「雪のように白い」は直喩である。","⇔隠喩","bungaku"],
+["換喩","かんゆ","隣接する関係にあるもので言い換える比喩。メトニミー。","「永田町が動いた」は換喩の一例だ。","関連：提喩","bungaku"],
+["提喩","ていゆ","「花」で桜を指すように、上位・下位の関係で言い換える比喩。シネクドキ。","「人はパンのみにて生くるにあらず」の「パン」は提喩である。","関連：換喩","bungaku"],
+["擬人法","ぎじんほう","人でないものを、人のように見立てて表す技法。","風が囁く、というのは擬人法だ。","関連：比喩・レトリック","bungaku"],
+["象徴","しょうちょう","抽象的な観念を、具体的な事物によって示すこと。","鳩は平和の象徴とされる。","関連：表象・記号","bungaku"],
+["アイロニー","あいろにー","表面と真意を食い違わせる皮肉な表現。意図と逆の結果になる状況も指す。","自由を求めた運動が新たな抑圧を生む、というアイロニー。","関連：逆説","bungaku"],
+["テクスト","てくすと","作者の意図から切り離し、それ自体として読まれる言葉のまとまり。","作品はテクストとして、読者の数だけ意味を生む。","関連：読者・解釈","bungaku"],
+["語り手","かたりて","物語を語る声。作者そのものとは区別して考える。","信頼できない語り手が、読者の足元を崩す。","関連：テクスト・物語","bungaku"],
+["虚構","きょこう","事実ではないが、かえって真実を映し出す作り事。フィクション。","虚構は、現実よりも深く現実を照らすことがある。","⇔事実・現実","bungaku"],
+["写実","しゃじつ","対象をありのままに描き出そうとする態度。","写実もまた、見る枠組みに支えられた一つの様式である。","⇔幻想・象徴","bungaku"],
+["抒情","じょじょう","自分の感情を主観的にうたい上げること。","抒情に流れず、事実を刻むように書く。","⇔叙事","bungaku"],
+["叙事","じょじ","出来事を客観的に語り伝えること。","叙事詩は、共同体の記憶を担ってきた。","⇔抒情","bungaku"],
+["内面","ないめん","他人からは見えない、心の中の世界。近代文学が「発見」したとされる。","風景の発見は、同時に内面の発見でもあった。","関連：自我・風景","bungaku"],
+["風景","ふうけい","眺められる対象としての自然。近代になって「発見」されたとされる。","風景は、内面をもつ近代的な主体とともに生まれた。","関連：内面・近代","bungaku"],
+["私小説","ししょうせつ","作者自身の身辺を素材とする、日本近代文学に特有の様式。","私小説は、告白することを芸術に変えようとした。","関連：内面・写実","bungaku"],
+["郷愁","きょうしゅう","失われた故郷や過去への、あこがれと悲しみ。ノスタルジー。","失われた風景への郷愁が、この作品を貫いている。","≒ノスタルジー","bungaku"],
+/* ── 論理・思考 ── */
+["抽象","ちゅうしょう","多くの事物から、共通する性質だけを抜き出してとらえること。","「愛」や「正義」は抽象的な概念であり、目に見える形をもたない。","⇔具体／捨象","ronri"],
+["具体","ぐたい","個別の、感覚でとらえられる実際の形をそなえていること。","もっと具体的に言えば、昨日の会議での彼の一言だ。","⇔抽象","ronri"],
+["捨象","しゃしょう","抽象化のさいに、共通しない性質を切り捨てること。","統計は個々の事情を捨象して数字だけを残す。","関連：抽象","ronri"],
+["概念","がいねん","事物に共通する本質をとらえ、言葉として一般化したもの。","家族という概念は時代とともに大きく変化してきた。","関連：定義・範疇","ronri"],
+["観念","かんねん","頭の中だけでつくられた考え。現実から離れた主観的な思い込みを指すことも多い。","彼は結婚とはこうあるべきだという固定観念に縛られている。","対比：概念（客観的）","ronri"],
+["普遍","ふへん","いつでも、どこでも、すべてに当てはまること。","人権は普遍的な価値として承認されている。","⇔特殊・個別","ronri"],
+["特殊","とくしゅ","一般には当てはまらず、限られた場合にだけ成り立つこと。","日本語のこの用法はきわめて特殊である。","⇔普遍","ronri"],
+["主観","しゅかん","物事を見る、自分自身の側の見方・感じ方。","美しいかどうかは主観の問題だ。","⇔客観","ronri"],
+["客観","きゃっかん","誰が見ても同じように成り立つ、立場から独立したあり方。","印象ではなく、客観的な数値で示す必要がある。","⇔主観","ronri"],
+["相対","そうたい","他との関係の中ではじめて意味や価値が決まること。","豊かさは他人との比較で決まる相対的なものだ。","⇔絶対","ronri"],
+["絶対","ぜったい","他と比べる必要がなく、それ自体で成り立っていること。","絶対的な真理などないと彼は言う。","⇔相対","ronri"],
+["相対化","そうたいか","自明とされていたものを、他と比べて絶対的ではないと捉え直すこと。","異文化との出会いは、自文化を相対化する契機となる。","関連：自明・二項対立","ronri"],
+["演繹","えんえき","一般的な原理から、個々の事実を必然的に導く推論。","公理から定理を導くのは演繹的な手続きだ。","⇔帰納","ronri"],
+["帰納","きのう","個々の事実を集めて、一般的な法則を導く推論。","多数の観察から帰納された仮説にすぎない。","⇔演繹","ronri"],
+["逆説","ぎゃくせつ","一見矛盾しているようで、実は真理を突いている言い方。パラドックス。","「急がば回れ」は典型的な逆説である。","関連：アイロニー","ronri"],
+["矛盾","むじゅん","二つの事柄が同時には成り立たない関係にあること。","自由を守るために自由を制限するという矛盾。","関連：二律背反","ronri"],
+["前提","ぜんてい","議論を成り立たせるために、あらかじめ置かれている条件。","その主張は、成長が続くという前提に立っている。","関連：自明","ronri"],
+["契機","けいき","物事が変化するきっかけ。また、ある事柄を成り立たせる不可欠な要素。","敗戦を契機として、価値観は大きく転換した。","≒モメント","ronri"],
+["恣意的","しいてき","必然的な理由がなく、その場の思いつきで決められているさま。※「意図的」ではない。","言語の音と意味の結びつきは恣意的である。","関連：分節・記号","ronri"],
+["蓋然性","がいぜんせい","ある事柄が起こる確からしさの度合い。","蓋然性は高いが、必然とまでは言えない。","⇔必然性","ronri"],
+["自明","じめい","証明するまでもなく明らかなこと。評論では「疑われないまま前提にされている」含みで使う。","自明とされてきた男女の役割分担を問い直す。","関連：前提・相対化","ronri"],
+["弁証法","べんしょうほう","対立や矛盾を通じて、より高い段階へと発展していく考え方。","弁証法的に矛盾を乗り越える。","関連：止揚","ronri"],
+["止揚","しよう","対立する二つを否定しつつ、より高い次元で統一すること。アウフヘーベン。","対立は止揚され、新たな段階へと進む。","関連：弁証法","ronri"],
+["二項対立","にこうたいりつ","物事を対立する二つの概念に分けてとらえる思考の枠組み。","西洋／東洋という二項対立は、現実を単純化してしまう。","関連：相対化","ronri"],
+["範疇","はんちゅう","同じ性質のものをまとめる、大きな枠組み。カテゴリー。","それは芸術の範疇には収まらない試みだ。","関連：概念","ronri"],
+["還元","かんげん","複雑なものを、より単純な要素に置き換えて説明すること。","心の働きを脳の化学反応に還元してよいのか。","関連：要素還元主義","ronri"],
+["多義的","たぎてき","一つの語や事柄が、複数の意味をもつこと。","「自然」という語はきわめて多義的だ。","⇔一義的","ronri"],
+["顕在","けんざい","はっきりと表に現れていること。","矛盾がついに顕在化した。","⇔潜在","ronri"],
+["アナロジー","あなろじー","似た構造をもつ別のものになぞらえて考えること。類推。","社会を生き物になぞらえるのは一種のアナロジーだ。","関連：比喩","ronri"],
+/* ── 頻出漢字語 ── */
+["齟齬","そご","食い違って、うまくかみ合わないこと。","理想と現実との齟齬に苦しむ。","≒食い違い","kanji"],
+["敷衍","ふえん","意味をおしひろげて、詳しく説明すること。","筆者の主張を敷衍して述べよ。","≒詳述","kanji"],
+["陶冶","とうや","素質や能力を育て上げること。人格を練りみがくこと。","教育の目的は、人格の陶冶にある。","≒育成・涵養","kanji"],
+["忸怩","じくじ","自分の行いを深く恥じ入るさま。","力及ばず、忸怩たる思いである。","≒慚愧","kanji"],
+["逢着","ほうちゃく","出くわすこと。多くは、困難な事態にぶつかること。","議論は根本的な難問に逢着した。","≒直面","kanji"],
+["揶揄","やゆ","からかい、なぶること。","時代遅れだと揶揄される。","≒嘲弄","kanji"],
+["韜晦","とうかい","自分の才能や本心を包み隠すこと。","韜晦を装った、彼一流の照れ隠しだ。","⇔顕示","kanji"],
+["逼迫","ひっぱく","行き詰まって、余裕がなくなること。","医療体制が逼迫している。","≒切迫","kanji"],
+["閉塞","へいそく","行き詰まって、先へ進めない状態。","時代の閉塞感が若者から言葉を奪う。","≒行き詰まり","kanji"],
+["払拭","ふっしょく","すっかりぬぐい去ること。","不信感を払拭するには時間がかかる。","≒一掃","kanji"],
+["収斂","しゅうれん","ばらばらのものが、一つに収まっていくこと。","議論は結局、費用の問題に収斂した。","⇔拡散","kanji"],
+["醸成","じょうせい","気運や雰囲気を、しだいにつくり出すこと。","対話の中で信頼が醸成されていく。","≒熟成","kanji"],
+["涵養","かんよう","水がしみこむように、少しずつ養い育てること。","市民としての良識を涵養する。","≒陶冶","kanji"],
+["措定","そてい","ある事柄を、ひとまずそういうものとして立てること。","主体を措定した上で議論を進める。","関連：前提","kanji"],
+["常套","じょうとう","ありふれた、いつもの決まりきったやり方。","「日本人は勤勉だ」という常套句を疑う。","≒紋切り型","kanji"],
+["端的","たんてき","まわりくどくなく、要点をはっきりと突くさま。また「まさに」。","端的に言えば、それは責任の放棄だ。","≒明白・簡潔","kanji"],
+["忌避","きひ","嫌って避けること。","面倒な議論が忌避されている。","≒回避","kanji"],
+["詭弁","きべん","筋が通っているように見せかけた、こじつけの議論。","それは論理ではなく詭弁にすぎない。","⇔正論","kanji"],
+["欺瞞","ぎまん","人をあざむき、だますこと。","中立を装うことこそが欺瞞である。","≒偽り","kanji"],
+["諦観","ていかん","本質を見きわめること。また、あきらめて悟りきること。","老いを前にした静かな諦観がにじむ。","≒達観","kanji"],
+["逡巡","しゅんじゅん","決めかねて、ためらうこと。","逡巡の末に、彼は口を開いた。","≒躊躇","kanji"],
+["形骸化","けいがいか","中身が失われ、形だけが残ること。","規則が形骸化し、誰も守らなくなった。","≒空洞化","kanji"],
+["拮抗","きっこう","力が同じくらいで張り合うこと。","両者の勢力は拮抗している。","≒伯仲","kanji"],
+["偏在","へんざい","かたよって存在すること。","富が都市に偏在している。","⇔遍在（同音異義）","kanji"],
+["遍在","へんざい","広くゆきわたって存在すること。","監視カメラは都市に遍在している。","⇔偏在（同音異義）","kanji"],
+["凌駕","りょうが","他を追い越して、その上に立つこと。","模倣を凌駕する独創が生まれた。","≒卓越","kanji"],
+["斟酌","しんしゃく","相手の事情をくみとって、手加減すること。","諸般の事情を斟酌する。","≒考慮","kanji"],
+["軋轢","あつれき","仲が悪くなること。摩擦。","住民との軋轢が絶えない。","≒摩擦・確執","kanji"],
+["矜持","きょうじ","自分の能力を信じて抱く誇り。プライド。","職人としての矜持を保つ。","≒自負","kanji"],
+["敷居","しきい","（比喩的に）近づきにくさの度合い。","専門書は敷居が高いと思われがちだ。","関連：慣用表現","kanji"],
+["示唆","しさ","それとなく、ほのめかし示すこと。","調査結果は、別の要因の存在を示唆している。","≒暗示","kanji"]
+];
+
+const DATA=W.map(function(a,i){return{id:i,w:a[0],r:a[1],m:a[2],e:a[3],k:a[4],c:a[5]};});
+const CATBY={}; CATS.forEach(function(c){CATBY[c.id]=c;});
+const KEY="gendaibun-kw-v2";
+const LV={1:"まだ",2:"あいまい",3:"覚えた"};
+
+/* ── 学習状況（見出し語をキーに保存。語の増減・並べ替えに強い） ── */
+var store={};
+try{var raw=localStorage.getItem(KEY); if(raw) store=JSON.parse(raw)||{};}catch(e){store={};}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(store));}catch(e){}}
+function kOf(id){return DATA[id].w;}
+function rec(id){var k=kOf(id);return store[k]||(store[k]={lv:0,ok:0,ng:0});}
+function lvOf(id){var r=store[kOf(id)];return (r&&r.lv)||0;}
+function setLv(id,lv){rec(id).lv=lv;save();refreshCounters();}
+
+/* ── 絞り込み ── */
+var filter={q:"",cats:[],st:"all"};
+function pool(){
+  var q=filter.q.trim().toLowerCase();
+  return DATA.filter(function(d){
+    if(filter.cats.length&&filter.cats.indexOf(d.c)<0) return false;
+    if(filter.st!=="all"&&lvOf(d.id)!==Number(filter.st)) return false;
+    if(q){
+      var hay=(d.w+d.r+d.m+d.e+d.k).toLowerCase();
+      if(hay.indexOf(q)<0) return false;
+    }
+    return true;
+  });
+}
+function catColor(c){return "var("+CATBY[c].v+")";}
+function esc(s){return String(s).replace(/[&<>"]/g,function(m){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m];});}
+
+/* ── 辞典 ── */
+var entriesEl=document.getElementById("entries"),
+    dictHint=document.getElementById("dictHint");
+function renderDict(){
+  var list=pool();
+  dictHint.textContent=list.length+" 語を表示中（全 "+DATA.length+" 語）";
+  document.getElementById("tn-dict").textContent=list.length;
+  if(!list.length){
+    entriesEl.innerHTML='<div class="empty"><b>該当する語がありません</b>検索語や絞り込みを見直してください。</div>';
+    return;
+  }
+  entriesEl.innerHTML=list.map(function(d){
+    var lv=lvOf(d.id), cc=catColor(d.c);
+    return '<article class="entry" style="--cat:'+cc+'" id="e'+d.id+'">'+
+      '<div class="spine"></div><div class="entry-body">'+
+      '<div><span class="yomi">'+esc(d.r)+'</span>'+
+      '<div class="e-head"><h3 class="word">'+esc(d.w)+'</h3>'+
+      '<span class="catlab">'+esc(CATBY[d.c].name)+'</span></div></div>'+
+      '<p class="mean">'+esc(d.m)+'</p>'+
+      '<p class="ex"><b>用例</b>'+esc(d.e)+'</p>'+
+      '<p class="rel"><span>'+esc(d.k)+'</span></p>'+
+      '<div class="e-foot"><div class="marks" role="group" aria-label="'+esc(d.w)+'の習得状況">'+
+        [1,2,3].map(function(n){
+          return '<button type="button" data-id="'+d.id+'" data-lv="'+n+'" aria-pressed="'+(lv===n)+'">'+LV[n]+'</button>';
+        }).join("")+
+      '</div></div></div></article>';
+  }).join("");
+}
+entriesEl.addEventListener("click",function(ev){
+  var b=ev.target.closest(".marks button"); if(!b) return;
+  var id=Number(b.dataset.id), lv=Number(b.dataset.lv);
+  setLv(id, lvOf(id)===lv?0:lv);
+  renderDict();
+});
+
+/* ── 分野チップ ── */
+var chipsEl=document.getElementById("catChips");
+chipsEl.innerHTML=CATS.map(function(c){
+  var n=DATA.filter(function(d){return d.c===c.id;}).length;
+  return '<button class="chip" type="button" data-cat="'+c.id+'" aria-pressed="false" style="--dotc:var('+c.v+')">'+
+    '<i class="dot"></i>'+c.name+' <span style="opacity:.6">'+n+'</span></button>';
+}).join("");
+chipsEl.addEventListener("click",function(ev){
+  var b=ev.target.closest(".chip"); if(!b) return;
+  var id=b.dataset.cat, i=filter.cats.indexOf(id);
+  if(i<0) filter.cats.push(id); else filter.cats.splice(i,1);
+  b.setAttribute("aria-pressed", i<0?"true":"false");
+  renderDict(); buildDeck(); resetQuiz();
+});
+document.getElementById("statusSeg").addEventListener("click",function(ev){
+  var b=ev.target.closest("button"); if(!b) return;
+  filter.st=b.dataset.st;
+  this.querySelectorAll("button").forEach(function(x){x.setAttribute("aria-pressed",String(x===b));});
+  renderDict(); buildDeck(); resetQuiz();
+});
+document.getElementById("q").addEventListener("input",function(){
+  filter.q=this.value; renderDict(); buildDeck(); resetQuiz();
+});
+
+/* ── 暗記カード ── */
+var deck=[],pos=0,flipped=false;
+var cardEl=document.getElementById("card"),ansEl=document.getElementById("cardAns"),
+    deckPos=document.getElementById("deckPos"),deckBar=document.getElementById("deckBar");
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function buildDeck(){deck=shuffle(pool().slice());pos=0;flipped=false;renderCard();}
+function renderCard(){
+  if(!deck.length){
+    cardEl.style.setProperty("--cat","var(--ink-3)");
+    cardEl.innerHTML='<div class="c-tap">この条件に当てはまる語がありません</div>';
+    ansEl.hidden=true; deckPos.textContent="0 / 0"; deckBar.style.width="0%"; return;
+  }
+  if(pos>=deck.length){
+    cardEl.style.setProperty("--cat","var(--tokiwa)");
+    cardEl.innerHTML='<div class="c-word" style="font-size:34px">一巡しました</div>'+
+      '<div class="divider"></div><div class="c-tap">'+deck.length+' 語すべてに目を通しました</div>';
+    ansEl.hidden=true; deckPos.textContent=deck.length+" / "+deck.length; deckBar.style.width="100%"; return;
+  }
+  var d=deck[pos];
+  cardEl.style.setProperty("--cat",catColor(d.c));
+  deckPos.textContent=(pos+1)+" / "+deck.length;
+  deckBar.style.width=(pos/deck.length*100)+"%";
+  if(!flipped){
+    cardEl.innerHTML='<div class="c-yomi">'+esc(CATBY[d.c].name)+'</div>'+
+      '<div class="c-word">'+esc(d.w)+'</div>'+
+      '<div class="c-tap">クリックして語義を見る</div>';
+    ansEl.hidden=true;
+  }else{
+    cardEl.innerHTML='<div class="c-yomi">'+esc(d.r)+'</div>'+
+      '<div class="c-word" style="font-size:32px">'+esc(d.w)+'</div>'+
+      '<div class="divider"></div>'+
+      '<p class="c-mean">'+esc(d.m)+'</p>'+
+      '<p class="c-ex">'+esc(d.e)+'</p>'+
+      '<div class="c-rel">'+esc(d.k)+'</div>';
+    ansEl.hidden=false;
+  }
+}
+function flip(){ if(!deck.length||pos>=deck.length) return; flipped=!flipped; renderCard(); }
+cardEl.addEventListener("click",flip);
+cardEl.addEventListener("keydown",function(ev){
+  if(ev.key===" "||ev.key==="Enter"){ev.preventDefault();flip();}
+});
+ansEl.addEventListener("click",function(ev){
+  var b=ev.target.closest(".ans"); if(!b) return;
+  setLv(deck[pos].id,Number(b.dataset.lv));
+  pos++; flipped=false; renderCard();
+});
+document.getElementById("reshuffle").addEventListener("click",buildDeck);
+
+/* ── 四択テスト ── */
+var quizEl=document.getElementById("quiz");
+var quiz=null;
+function makeQuiz(){
+  var p=pool().slice();
+  if(p.length<4) return null;
+  shuffle(p);
+  var qs=p.slice(0,Math.min(10,p.length)).map(function(d,i){
+    var mode=i%2===0?"w2m":"m2w";
+    var same=DATA.filter(function(x){return x.c===d.c&&x.id!==d.id;});
+    var src=same.length>=3?same:DATA.filter(function(x){return x.id!==d.id;});
+    var opts=shuffle(src.slice()).slice(0,3).concat([d]);
+    return {d:d,mode:mode,opts:shuffle(opts)};
+  });
+  return {qs:qs,i:0,score:0,miss:[],answered:false};
+}
+function resetQuiz(){quiz=null; if(!document.getElementById("p-quiz").hidden) renderQuiz();}
+function renderQuiz(){
+  if(!quiz){
+    quiz=makeQuiz();
+    if(!quiz){
+      quizEl.innerHTML='<div class="empty"><b>出題できません</b>絞り込みを広げて、4 語以上を対象にしてください。</div>';
+      return;
+    }
+  }
+  if(quiz.i>=quiz.qs.length){
+    var n=quiz.qs.length;
+    quizEl.innerHTML='<div class="result">'+
+      '<div class="q-label">結果</div>'+
+      '<div class="score">'+quiz.score+'<small> / '+n+'</small></div>'+
+      '<p style="color:var(--ink-2);margin:6px 0 0">'+
+        (quiz.score===n?"全問正解です。次は範囲を広げてみましょう。":
+         quiz.score>=n*0.7?"よく取れています。取りこぼした語を辞典で確認しましょう。":
+         "まずは間違えた語を暗記カードで繰り返しましょう。")+'</p>'+
+      (quiz.miss.length?'<div class="misses"><h4>取りこぼした語</h4><ul style="margin:0;padding-left:0;list-style:none">'+
+        quiz.miss.map(function(d){return '<li><b>'+esc(d.w)+'</b>（'+esc(d.r)+'）　'+esc(d.m)+'</li>';}).join("")+
+        '</ul></div>':'')+
+      '<button class="mini" style="margin-top:18px" id="again" type="button">もう一度 10 問</button>'+
+      '</div>';
+    document.getElementById("again").onclick=function(){quiz=null;renderQuiz();};
+    return;
+  }
+  var q=quiz.qs[quiz.i], d=q.d, w2m=q.mode==="w2m";
+  quizEl.innerHTML='<div class="q-meta"><span>第 '+(quiz.i+1)+' 問 / '+quiz.qs.length+'</span>'+
+      '<span>正解 '+quiz.score+'</span></div>'+
+    '<div class="q-stem"><div class="q-label">'+(w2m?"次の語の意味として最も適当なものは":"次の意味に当たる語は")+'</div>'+
+      '<div class="q-text'+(w2m?"":" small")+'">'+esc(w2m?d.w:d.m)+'</div></div>'+
+    '<div class="opts" id="opts">'+
+      q.opts.map(function(o,i){
+        return '<button class="opt" type="button" data-id="'+o.id+'"><span class="n">'+(i+1)+'</span><span>'+
+          esc(w2m?o.m:o.w+"（"+o.r+"）")+'</span></button>';
+      }).join("")+
+    '</div><div id="fb"></div>';
+  document.getElementById("opts").addEventListener("click",function(ev){
+    var b=ev.target.closest(".opt"); if(!b||quiz.answered) return;
+    quiz.answered=true;
+    var chosen=Number(b.dataset.id), ok=chosen===d.id;
+    this.querySelectorAll(".opt").forEach(function(x){
+      x.disabled=true;
+      if(Number(x.dataset.id)===d.id) x.classList.add("correct");
+      else if(x===b) x.classList.add("wrong");
+    });
+    var r=rec(d.id);
+    if(ok){ quiz.score++; r.ok++; if(r.lv<3) r.lv=r.lv===2?3:2; }
+    else { r.ng++; quiz.miss.push(d); r.lv=1; }
+    save(); refreshCounters();
+    document.getElementById("fb").innerHTML='<div class="q-feedback">'+
+      '<div class="fw">'+esc(d.w)+'<span style="font-family:var(--sans);font-size:12px;color:var(--ink-3);font-weight:400;margin-left:8px">'+esc(d.r)+'</span></div>'+
+      esc(d.m)+'<div style="margin-top:8px;font-size:13px;color:var(--ink-2)">用例：'+esc(d.e)+'</div>'+
+      '<button class="mini" style="margin-top:12px" id="next" type="button">次の問題へ</button></div>';
+    document.getElementById("next").focus();
+    document.getElementById("next").onclick=function(){quiz.i++;quiz.answered=false;renderQuiz();};
+  });
+}
+
+/* ── 進捗 ── */
+function refreshCounters(){
+  var done=DATA.filter(function(d){return lvOf(d.id)===3;}).length;
+  document.getElementById("tn-prog").textContent=done+"/"+DATA.length;
+}
+function renderProg(){
+  var n=DATA.length, c1=0,c2=0,c3=0;
+  DATA.forEach(function(d){var l=lvOf(d.id); if(l===1)c1++; else if(l===2)c2++; else if(l===3)c3++;});
+  var untouched=n-c1-c2-c3;
+  var rows=CATS.map(function(c){
+    var g=DATA.filter(function(d){return d.c===c.id;});
+    var a=[0,0,0,0]; g.forEach(function(d){a[lvOf(d.id)]++;});
+    var pct=Math.round(a[3]/g.length*100);
+    return '<div class="bar-row"><span class="nm">'+c.name+'</span>'+
+      '<div class="track">'+
+        '<i class="l3" style="width:'+(a[3]/g.length*100)+'%"></i>'+
+        '<i class="l2" style="width:'+(a[2]/g.length*100)+'%"></i>'+
+        '<i class="l1" style="width:'+(a[1]/g.length*100)+'%"></i>'+
+      '</div><span class="pc">'+pct+'%</span></div>';
+  }).join("");
+  var weak=DATA.filter(function(d){var r=store[d.w]; return lvOf(d.id)===1||(r&&r.ng>r.ok);})
+    .sort(function(a,b){return ((store[b.w]&&store[b.w].ng)||0)-((store[a.w]&&store[a.w].ng)||0);});
+  document.getElementById("prog").innerHTML=
+    '<div class="tally">'+
+      '<div><div class="n" style="color:var(--tokiwa)">'+c3+'</div><div class="l">覚えた</div></div>'+
+      '<div><div class="n" style="color:var(--yama)">'+c2+'</div><div class="l">あいまい</div></div>'+
+      '<div><div class="n" style="color:var(--shu)">'+c1+'</div><div class="l">まだ</div></div>'+
+      '<div><div class="n" style="color:var(--ink-3)">'+untouched+'</div><div class="l">未仕分け</div></div>'+
+    '</div>'+
+    '<div><h2 class="sect-h">分野別の習得率</h2>'+
+      '<div class="bars">'+rows+'</div>'+
+      '<div class="legend" style="margin-top:16px">'+
+        '<span><i style="background:var(--tokiwa)"></i>覚えた</span>'+
+        '<span><i style="background:var(--yama)"></i>あいまい</span>'+
+        '<span><i style="background:var(--shu)"></i>まだ</span>'+
+        '<span><i style="background:var(--surface-2)"></i>未仕分け</span>'+
+      '</div></div>'+
+    '<div><h2 class="sect-h">重点復習リスト'+(weak.length?'（'+weak.length+' 語）':'')+'</h2>'+
+      (weak.length?'<div class="weak">'+weak.map(function(d){
+        var r=store[d.w]||{};
+        return '<a href="#e'+d.id+'" data-id="'+d.id+'">'+esc(d.w)+(r.ng?'<small>誤答'+r.ng+'</small>':'')+'</a>';
+      }).join("")+'</div>':'<p style="color:var(--ink-3);font-size:13.5px;margin:0">「まだ」に仕分けした語や、四択で誤答した語がここに集まります。</p>')+
+    '</div>'+
+    '<button class="danger" id="resetAll" type="button">学習状況をすべて消去</button>';
+  document.getElementById("resetAll").onclick=function(){
+    if(confirm("すべての学習状況を消去します。よろしいですか？")){
+      store={};save();refreshCounters();renderDict();buildDeck();resetQuiz();renderProg();
+    }
+  };
+  document.querySelector("#prog .weak")&&document.querySelector("#prog .weak").addEventListener("click",function(ev){
+    var a=ev.target.closest("a"); if(!a) return;
+    ev.preventDefault();
+    filter.q=""; filter.st="all"; filter.cats=[];
+    document.getElementById("q").value="";
+    document.querySelectorAll("#catChips .chip").forEach(function(x){x.setAttribute("aria-pressed","false");});
+    document.querySelectorAll("#statusSeg button").forEach(function(x){x.setAttribute("aria-pressed",String(x.dataset.st==="all"));});
+    renderDict(); buildDeck(); resetQuiz(); show("dict");
+    var el=document.getElementById("e"+a.dataset.id);
+    if(el){el.scrollIntoView({behavior:"smooth",block:"center"});}
+  });
+}
+
+/* ── タブ ── */
+var VIEWS=["dict","card","quiz","prog"];
+function show(v){
+  VIEWS.forEach(function(x){
+    document.getElementById("tab-"+x).setAttribute("aria-selected",String(x===v));
+    document.getElementById("p-"+x).hidden=(x!==v);
+  });
+  if(v==="card"&&!deck.length) buildDeck();
+  if(v==="quiz") renderQuiz();
+  if(v==="prog") renderProg();
+}
+VIEWS.forEach(function(v){document.getElementById("tab-"+v).addEventListener("click",function(){show(v);});});
+
+/* ── 表示切替 ── */
+var themeBtn=document.getElementById("themeBtn");
+themeBtn.addEventListener("click",function(){
+  var cur=document.documentElement.getAttribute("data-theme");
+  var next=cur==="dark"?"light":(cur==="light"?null:"dark");
+  if(next) document.documentElement.setAttribute("data-theme",next);
+  else document.documentElement.removeAttribute("data-theme");
+  try{localStorage.setItem(KEY+"-theme",next||"");}catch(e){}
+});
+try{var t=localStorage.getItem(KEY+"-theme"); if(t) document.documentElement.setAttribute("data-theme",t);}catch(e){}
+
+document.getElementById("totalCount").textContent=DATA.length;
+refreshCounters();
+renderDict();
+buildDeck();
+</script>
+</body>
+</html>
