@@ -23,6 +23,7 @@
   --serif:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif;
   --sans:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
   --shadow:0 1px 2px rgba(23,32,42,.06),0 8px 24px -12px rgba(23,32,42,.18);
+  color-scheme:light dark;
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
@@ -53,7 +54,9 @@
   --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
 }
 *{box-sizing:border-box}
-body{background:var(--paper);color:var(--ink);font-family:var(--sans);
+img{max-width:100%}
+[hidden]:not([hidden=until-found]){display:none!important}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
   font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;
   font-feature-settings:"palt" 1;}
 .wrap{max-width:940px;margin:0 auto;padding:0 20px 80px}
@@ -250,13 +253,44 @@ footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
   .bar-row{grid-template-columns:1fr;gap:5px}
   .bar-row .pc{text-align:left}
 }
-</style>
-<style>
-/* ブラウザ既定のならし。artifact 版のラッパーが与えていたものを明示しておく */
-:root{color-scheme:light dark}
-body{margin:0;padding:0}
-img{max-width:100%}
-[hidden]:not([hidden=until-found]){display:none!important}
+
+/* ── 使い方 ── */
+.help-btn{border:1px solid var(--rule-2);border-radius:999px;padding:5px 13px;
+  font-size:12px;color:var(--ink-2);background:var(--surface)}
+.help-btn:hover{border-color:var(--ai);color:var(--ai)}
+dialog#help{padding:0;border:1px solid var(--rule-2);border-radius:6px;
+  background:var(--surface);color:var(--ink);box-shadow:var(--shadow);
+  max-width:560px;width:calc(100% - 32px)}
+dialog#help[open]{display:flex;flex-direction:column;max-height:min(82vh,760px)}
+dialog#help::backdrop{background:rgba(23,32,42,.5)}
+.help-head{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:18px 22px 14px;border-bottom:1px solid var(--rule)}
+.help-head h2{font-family:var(--serif);font-size:20px;font-weight:700;letter-spacing:.06em}
+.help-x{font-size:21px;line-height:1;color:var(--ink-3);padding:1px 7px;border-radius:3px}
+.help-x:hover{background:var(--surface-2);color:var(--ink)}
+.help-body{padding:18px 22px;overflow-y:auto}
+.steps{margin:0;padding:0;list-style:none;counter-reset:s;
+  display:flex;flex-direction:column;gap:14px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:22px 1fr;gap:0 12px;
+  font-size:13.5px;line-height:1.75;color:var(--ink-2)}
+.steps li::before{content:counter(s);font-family:var(--serif);font-weight:700;font-size:12.5px;
+  color:var(--ai);background:var(--ai-soft);border-radius:50%;width:22px;height:22px;
+  display:flex;align-items:center;justify-content:center;margin-top:4px}
+.steps .st{min-width:0}
+.steps b{display:block;color:var(--ink);font-size:14.5px;font-weight:700;margin-bottom:1px}
+.steps em{font-style:normal;color:var(--ink);font-weight:500}
+.help-note{margin-top:16px;padding:12px 14px;background:var(--surface-2);border-radius:4px;
+  font-size:12.5px;line-height:1.8;color:var(--ink-2)}
+.help-note b{display:block;color:var(--ink);font-size:11px;letter-spacing:.12em;margin-bottom:3px}
+.help-foot{padding:14px 22px 18px;border-top:1px solid var(--rule);
+  display:flex;justify-content:flex-end}
+.help-start{background:var(--ai);color:var(--paper);border-radius:3px;
+  padding:9px 28px;font-size:14px;font-weight:700}
+.help-start:hover{filter:brightness(1.08)}
+@media(max-width:560px){
+  .help-head,.help-body,.help-foot{padding-left:16px;padding-right:16px}
+  dialog#help{width:calc(100% - 20px)}
+}
 </style>
 </head>
 <body>
@@ -268,6 +302,7 @@ img{max-width:100%}
     </div>
     <div class="mast-right">
       <span class="count">収録 <b id="totalCount">0</b> 語</span>
+      <button class="help-btn" id="helpBtn" type="button">使い方</button>
       <button class="theme-btn" id="themeBtn" type="button">表示切替</button>
     </div>
   </header>
@@ -334,6 +369,33 @@ img{max-width:100%}
     <span>大学入試 現代文 ／ 評論キーワード</span>
   </footer>
 </div>
+
+<dialog id="help" aria-labelledby="helpTitle">
+  <div class="help-head">
+    <h2 id="helpTitle">使い方</h2>
+    <button class="help-x" id="helpClose" type="button" aria-label="閉じる">&times;</button>
+  </div>
+  <div class="help-body">
+    <ol class="steps">
+      <li><div class="st"><b>辞典で引く</b>検索欄には、語・読み・意味のどれを入れても引けます。「そがい」でも「疎外」でも構いません。分野のボタンを押すと、その分野だけが残ります。</div></li>
+      <li><div class="st"><b>自分の状態を仕分ける</b>各語の右下にある<em>まだ／あいまい／覚えた</em>を押して記録します。これがこの辞典の土台で、ほかのすべての機能がこの仕分けを使います。</div></li>
+      <li><div class="st"><b>暗記カードで覚える</b>語だけが表示されるので、意味を思い浮かべてからクリックして答え合わせをし、そのまま仕分けます。</div></li>
+      <li><div class="st"><b>四択テストで確かめる</b>10問。語→意味と意味→語が交互に出ます。誤答の選択肢は同じ分野から選ばれるので、似た語の区別が試されます。</div></li>
+      <li><div class="st"><b>進捗で弱い語に戻る</b>分野ごとの習得率と、「まだ」にした語・テストで間違えた語を集めた重点復習リストが出ます。語を押すと辞典のその項目へ飛びます。</div></li>
+    </ol>
+    <div class="help-note">
+      <b>覚えておくと便利</b>
+      辞典で設定した絞り込み（検索語・分野・習得状況）は、暗記カードと四択テストにもそのまま効きます。「まだ」だけに絞ってから暗記カードを開けば、苦手な語だけを繰り返せます。
+    </div>
+    <div class="help-note">
+      <b>保存について</b>
+      学習状況は、いま見ている端末のブラウザにだけ保存されます。ほかの端末やブラウザには引き継がれず、閲覧データを消すと失われます。
+    </div>
+  </div>
+  <div class="help-foot">
+    <button class="help-start" id="helpStart" type="button">はじめる</button>
+  </div>
+</dialog>
 
 <script>
 const CATS=[
@@ -838,6 +900,31 @@ themeBtn.addEventListener("click",function(){
   try{localStorage.setItem(KEY+"-theme",next||"");}catch(e){}
 });
 try{var t=localStorage.getItem(KEY+"-theme"); if(t) document.documentElement.setAttribute("data-theme",t);}catch(e){}
+
+/* ── 使い方 ── */
+var helpDlg=document.getElementById("help");
+function openHelp(){
+  if(typeof helpDlg.showModal==="function") helpDlg.showModal();
+  else helpDlg.setAttribute("open","");
+}
+function markSeen(){try{localStorage.setItem(KEY+"-seen","1");}catch(e){}}
+function closeHelp(){
+  markSeen();
+  if(typeof helpDlg.close==="function") helpDlg.close();
+  else helpDlg.removeAttribute("open");
+}
+document.getElementById("helpBtn").addEventListener("click",openHelp);
+document.getElementById("helpClose").addEventListener("click",closeHelp);
+document.getElementById("helpStart").addEventListener("click",closeHelp);
+helpDlg.addEventListener("close",markSeen);          /* Esc で閉じた場合 */
+helpDlg.addEventListener("keydown",function(ev){      /* <dialog> 非対応環境の保険 */
+  if(ev.key==="Escape"){ev.preventDefault();closeHelp();}
+});
+helpDlg.addEventListener("click",function(ev){        /* 外側をクリック */
+  if(ev.target===helpDlg) closeHelp();
+});
+var helpSeen=""; try{helpSeen=localStorage.getItem(KEY+"-seen")||"";}catch(e){}
+if(!helpSeen) openHelp();   /* 初回だけ自動で開く */
 
 document.getElementById("totalCount").textContent=DATA.length;
 refreshCounters();
