@@ -1053,17 +1053,32 @@ function makeQuiz(){
   var p=pool().slice();
   if(p.length<4) return null;
   var n=Math.min(10,p.length);
-  /* 優先度が高く、最後に出題してから間が空いている順に並べ、その上位だけを
-     シャッフルして n 問取る。直前に出た語が続けて出ることを防ぎつつ、
-     毎回まったく同じ組にもならないようにするための二段構え。 */
-  p.sort(function(a,b){
-    var w=qWeight(b.id)-qWeight(a.id); if(w) return w;
-    return ((store[kOf(a.id)]||{}).t||0)-((store[kOf(b.id)]||{}).t||0);
+
+  /* 期限の来た語は取りこぼさない。シャッフルの対象に混ぜると入らないことがあるため、
+     まず期限の古い順に確保してしまう。「まだ」や誤答がその日のうちに戻るのはここ。 */
+  var due=p.filter(function(d){return isDue(d.id);}).sort(function(a,b){
+    var ra=store[kOf(a.id)]||{}, rb=store[kOf(b.id)]||{};
+    return (ra.due||0)-(rb.due||0) || (ra.t||0)-(rb.t||0);
   });
-  var head=p.slice(0,Math.min(p.length,n*2));
-  shuffle(head);
+  var pick=due.slice(0,n);
+
+  /* 残りは、まだ出していない語・苦手な語を先に、かつ最後に出題してから間の空いた順に
+     並べ、その上位（必要数の2倍）をシャッフルして埋める。直前に出た語が続けて出るのを
+     防ぎつつ、毎回まったく同じ組にもならないようにするための二段構え。 */
+  if(pick.length<n){
+    var need=n-pick.length;
+    var rest=p.filter(function(d){return !isDue(d.id);}).sort(function(a,b){
+      var w=qWeight(b.id)-qWeight(a.id); if(w) return w;
+      return ((store[kOf(a.id)]||{}).t||0)-((store[kOf(b.id)]||{}).t||0);
+    });
+    var head=rest.slice(0,Math.min(rest.length,need*2));
+    shuffle(head);
+    pick=pick.concat(head.slice(0,need));
+  }
+  shuffle(pick);
+
   var now=Date.now();
-  var qs=head.slice(0,n).map(function(d,i){
+  var qs=pick.map(function(d,i){
     rec(d.id).t=now;   /* 出題時刻を控える。次回の既出除外はこれを見る */
     var mode=i%2===0?"w2m":"m2w";
     var same=DATA.filter(function(x){return x.c===d.c&&x.id!==d.id;});
