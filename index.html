@@ -111,12 +111,13 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none}
 .chip .dot{width:8px;height:8px;border-radius:2px;background:var(--dotc,var(--ink-3))}
 .chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .chip[aria-pressed="true"] .dot{background:var(--paper)}
-.seg{display:inline-flex;border:1px solid var(--rule);border-radius:3px;overflow:hidden;
-  background:var(--surface)}
-.seg button{padding:5px 13px;font-size:12.5px;color:var(--ink-2);
-  border-right:1px solid var(--rule)}
-.seg button:last-child{border-right:none}
+.seg{display:flex;flex-wrap:wrap;gap:1px;padding:1px;border:1px solid var(--rule);
+  border-radius:3px;background:var(--rule)}
+.seg button{padding:5px 13px;font-size:12.5px;color:var(--ink-2);white-space:nowrap;
+  background:var(--surface);flex:1 0 auto}
 .seg button[aria-pressed="true"]{background:var(--ai-soft);color:var(--ai);font-weight:700}
+.seg .sn{font-size:11px;color:var(--ink-3);margin-left:5px;font-variant-numeric:tabular-nums}
+.seg button[aria-pressed="true"] .sn{color:var(--ai)}
 .filter-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
 .hint{font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums}
 
@@ -254,6 +255,38 @@ footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
   .bar-row .pc{text-align:left}
 }
 
+/* ── 今日の復習 ── */
+.today{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:space-between;
+  margin-top:20px;padding:13px 17px;background:var(--surface);border:1px solid var(--rule);
+  border-left:3px solid var(--ai);border-radius:0 4px 4px 0}
+.today[data-tone="calm"]{border-left-color:var(--tokiwa)}
+.today .t-txt{font-size:13.5px;color:var(--ink-2);min-width:0}
+.today .t-txt b{font-family:var(--serif);font-size:21px;font-weight:700;color:var(--ai);
+  margin:0 3px;font-variant-numeric:tabular-nums}
+.today[data-tone="calm"] .t-txt b{color:var(--tokiwa)}
+.today .t-act{display:flex;gap:8px;flex-wrap:wrap}
+
+/* ── 復習予定・書き出し ── */
+.plan{display:flex;gap:0;border:1px solid var(--rule);border-radius:4px;overflow:hidden;
+  background:var(--surface)}
+.plan div{flex:1;padding:13px 10px;text-align:center;border-right:1px solid var(--rule)}
+.plan div:last-child{border-right:none}
+.plan .n{font-family:var(--serif);font-size:23px;font-weight:700;line-height:1.2;
+  font-variant-numeric:tabular-nums;color:var(--ai)}
+.plan .l{font-size:11px;letter-spacing:.08em;color:var(--ink-3);margin-top:2px;white-space:nowrap}
+.io{display:flex;flex-direction:column;gap:10px}
+.io-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.io textarea{width:100%;min-height:76px;font-family:ui-monospace,SFMono-Regular,monospace;
+  font-size:11.5px;line-height:1.6;padding:10px;border:1px solid var(--rule-2);border-radius:3px;
+  background:var(--surface);color:var(--ink);resize:vertical}
+.io-note{font-size:12px;color:var(--ink-3);line-height:1.8;margin:0}
+.io-msg{font-size:12.5px;color:var(--tokiwa)}
+.io-msg[data-err="1"]{color:var(--shu)}
+.box-tag{font-size:10.5px;letter-spacing:.08em;color:var(--ink-3);
+  border:1px solid var(--rule);border-radius:999px;padding:1px 9px;white-space:nowrap}
+.box-tag[data-now="1"]{color:var(--shu);border-color:var(--shu);background:var(--shu-soft)}
+.e-foot{justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+
 /* ── 使い方 ── */
 .help-btn{border:1px solid var(--rule-2);border-radius:999px;padding:5px 13px;
   font-size:12px;color:var(--ink-2);background:var(--surface)}
@@ -314,6 +347,11 @@ dialog#help::backdrop{background:rgba(23,32,42,.5)}
     <button class="tab" role="tab" id="tab-prog" aria-controls="p-prog" aria-selected="false">進捗<span class="tnum" id="tn-prog"></span></button>
   </nav>
 
+  <div class="today" id="today" hidden>
+    <p class="t-txt" id="todayTxt" style="margin:0"></p>
+    <div class="t-act" id="todayAct"></div>
+  </div>
+
   <!-- 辞典 -->
   <section class="panel" id="p-dict" role="tabpanel" aria-labelledby="tab-dict">
     <div class="filters">
@@ -325,6 +363,8 @@ dialog#help::backdrop{background:rgba(23,32,42,.5)}
       <div class="filter-row">
         <div class="seg" id="statusSeg" role="group" aria-label="習得状況で絞り込む">
           <button type="button" data-st="all" aria-pressed="true">すべて</button>
+          <button type="button" data-st="due" aria-pressed="false">要復習<span class="sn" id="sn-due">0</span></button>
+          <button type="button" data-st="ng" aria-pressed="false">苦手<span class="sn" id="sn-ng">0</span></button>
           <button type="button" data-st="1" aria-pressed="false">まだ</button>
           <button type="button" data-st="2" aria-pressed="false">あいまい</button>
           <button type="button" data-st="3" aria-pressed="false">覚えた</button>
@@ -365,7 +405,7 @@ dialog#help::backdrop{background:rgba(23,32,42,.5)}
   </section>
 
   <footer>
-    <span>学習状況はこの端末のブラウザにのみ保存されます。</span>
+    <span>学習状況はこの端末のブラウザにのみ保存されます（進捗タブから書き出せます）。</span>
     <span>大学入試 現代文 ／ 評論キーワード</span>
   </footer>
 </div>
@@ -377,19 +417,20 @@ dialog#help::backdrop{background:rgba(23,32,42,.5)}
   </div>
   <div class="help-body">
     <ol class="steps">
+      <li><div class="st"><b>「今日の復習」から始める</b>タブのすぐ下の帯に、その日に解き直すべき語の数が出ます。何からやるか迷ったら、ここのボタンを押すだけで構いません。</div></li>
       <li><div class="st"><b>辞典で引く</b>検索欄には、語・読み・意味のどれを入れても引けます。「そがい」でも「疎外」でも構いません。分野のボタンを押すと、その分野だけが残ります。</div></li>
-      <li><div class="st"><b>自分の状態を仕分ける</b>各語の右下にある<em>まだ／あいまい／覚えた</em>を押して記録します。これがこの辞典の土台で、ほかのすべての機能がこの仕分けを使います。</div></li>
+      <li><div class="st"><b>自分の状態を仕分ける</b>各語の右下にある<em>まだ／あいまい／覚えた</em>を押して記録します。仕分けると、次にその語を出す日が決まります。<em>覚えた</em>を重ねるたびに間隔が 1 → 2 → 4 → 7 → 14 日と延び、<em>まだ</em>や誤答はその日のうちに戻ってきます。</div></li>
       <li><div class="st"><b>暗記カードで覚える</b>語だけが表示されるので、意味を思い浮かべてからクリックして答え合わせをし、そのまま仕分けます。</div></li>
-      <li><div class="st"><b>四択テストで確かめる</b>10問。語→意味と意味→語が交互に出ます。誤答の選択肢は同じ分野から選ばれるので、似た語の区別が試されます。</div></li>
-      <li><div class="st"><b>進捗で弱い語に戻る</b>分野ごとの習得率と、「まだ」にした語・テストで間違えた語を集めた重点復習リストが出ます。語を押すと辞典のその項目へ飛びます。</div></li>
+      <li><div class="st"><b>四択テストで確かめる</b>10問。語→意味と意味→語が交互に出ます。誤答の選択肢は同じ分野から選ばれるので、似た語の区別が試されます。<em>1 〜 4</em> のキーでも答えられます。期限の来た語と、まだ出していない語が先に出るようになっていて、直前に出た語がすぐまた出ることはありません。</div></li>
+      <li><div class="st"><b>進捗で弱い語に戻る</b>分野ごとの習得率、復習の予定、そして「まだ」にした語・テストで間違えた語を集めた重点復習リストが出ます。語を押すと辞典のその項目へ飛びます。</div></li>
     </ol>
     <div class="help-note">
       <b>覚えておくと便利</b>
-      辞典で設定した絞り込み（検索語・分野・習得状況）は、暗記カードと四択テストにもそのまま効きます。「まだ」だけに絞ってから暗記カードを開けば、苦手な語だけを繰り返せます。
+      辞典で設定した絞り込み（検索語・分野・習得状況）は、暗記カードと四択テストにもそのまま効きます。<em>要復習</em>や<em>苦手</em>に絞ってから暗記カードを開けば、いま手を入れるべき語だけを繰り返せます。
     </div>
     <div class="help-note">
       <b>保存について</b>
-      学習状況は、いま見ている端末のブラウザにだけ保存されます。ほかの端末やブラウザには引き継がれず、閲覧データを消すと失われます。
+      学習状況は、いま見ている端末のブラウザにだけ保存されます。機種を変えるときや、学校と自宅で使い分けたいときは、<em>進捗</em>の一番下にある「学習状況の持ち出し」から書き出して、移した先で読み込んでください。
     </div>
   </div>
   <div class="help-foot">
@@ -603,25 +644,60 @@ const W=[
 
 const DATA=W.map(function(a,i){return{id:i,w:a[0],r:a[1],m:a[2],e:a[3],k:a[4],c:a[5]};});
 const CATBY={}; CATS.forEach(function(c){CATBY[c.id]=c;});
-const KEY="gendaibun-kw-v2";
+const KEY="gendaibun-kw-v3";
+const KEY_OLD="gendaibun-kw-v2";
+const KEY_THEME="gendaibun-kw-theme";
+const KEY_SEEN="gendaibun-kw-seen";
 const LV={1:"まだ",2:"あいまい",3:"覚えた"};
 
-/* ── 学習状況（見出し語をキーに保存。語の増減・並べ替えに強い） ── */
+/* 復習箱（ライトナー式）。box 0〜5 に対して、次に出すまでの日数。
+   「まだ」や誤答は box 0 に戻り、その日のうちにまた出る。 */
+const INT=[0,1,2,4,7,14];
+
+/* ── 学習状況（見出し語をキーに保存。語の増減・並べ替えに強い） ──
+   1語ぶんの記録は {lv:仕分け, ok:正答数, ng:誤答数, box:復習箱, due:次回の日, t:最後に出題した時刻} */
 var store={};
-try{var raw=localStorage.getItem(KEY); if(raw) store=JSON.parse(raw)||{};}catch(e){store={};}
+try{
+  var raw=localStorage.getItem(KEY) || localStorage.getItem(KEY_OLD);  /* v2 からは自動で引き継ぐ */
+  if(raw) store=JSON.parse(raw)||{};
+}catch(e){store={};}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(store));}catch(e){}}
+
+/* 端末の時計での「今日」を通し番号で表す（日付をまたいだかだけが分かればよい） */
+function today(){var d=new Date();return Math.floor((d.getTime()-d.getTimezoneOffset()*6e4)/864e5);}
+
 function kOf(id){return DATA[id].w;}
-function rec(id){var k=kOf(id);return store[k]||(store[k]={lv:0,ok:0,ng:0});}
+function rec(id){var k=kOf(id);return store[k]||(store[k]={lv:0,ok:0,ng:0,box:0,due:0,t:0});}
 function lvOf(id){var r=store[kOf(id)];return (r&&r.lv)||0;}
-function setLv(id,lv){rec(id).lv=lv;save();refreshCounters();}
+/* 出題しただけの語は「手をつけた」に数えない（t だけが入っている状態） */
+function touched(id){var r=store[kOf(id)];return !!(r&&(r.lv||r.ok||r.ng));}
+function isDue(id){var r=store[kOf(id)];return !!(r&&r.due&&touched(id)&&r.due<=today());}
+function isWeak(id){var r=store[kOf(id)];return !!(r&&(r.lv===1||(r.ng||0)>(r.ok||0)));}
+function dueIn(id){var r=store[kOf(id)];return (r&&r.due&&touched(id))?r.due-today():null;}
+function schedule(r,box){r.box=Math.max(0,Math.min(5,box));r.due=today()+INT[r.box];}
+function setLv(id,lv){
+  var r=rec(id); r.lv=lv;
+  if(lv===3)      schedule(r,(r.box||0)+1);   /* 覚えた → 箱を一つ上げて先送り */
+  else if(lv===2) schedule(r,1);              /* あいまい → 明日また */
+  else if(lv===1) schedule(r,0);              /* まだ → 今日のうちにまた */
+  else { r.box=0; r.due=0; }                  /* 仕分けの取り消し */
+  save(); refreshCounters(); refreshToday(); refreshSeg();
+}
 
 /* ── 絞り込み ── */
 var filter={q:"",cats:[],st:"all"};
-function pool(){
+function matchSt(id,st){
+  if(st==="all") return true;
+  if(st==="due") return isDue(id);
+  if(st==="ng")  return isWeak(id);
+  return lvOf(id)===Number(st);
+}
+/* ignoreSt=true で「分野・検索だけ効かせた母集団」を返す（絞り込みボタンの語数表示用） */
+function pool(ignoreSt){
   var q=filter.q.trim().toLowerCase();
   return DATA.filter(function(d){
     if(filter.cats.length&&filter.cats.indexOf(d.c)<0) return false;
-    if(filter.st!=="all"&&lvOf(d.id)!==Number(filter.st)) return false;
+    if(!ignoreSt&&!matchSt(d.id,filter.st)) return false;
     if(q){
       var hay=(d.w+d.r+d.m+d.e+d.k).toLowerCase();
       if(hay.indexOf(q)<0) return false;
@@ -629,12 +705,32 @@ function pool(){
     return true;
   });
 }
+/* 絞り込みの一括変更（今日の復習バーと重点復習リストから呼ぶ） */
+function applyFilter(st){
+  filter.st=st; filter.q=""; filter.cats=[];
+  document.getElementById("q").value="";
+  document.querySelectorAll("#catChips .chip").forEach(function(x){x.setAttribute("aria-pressed","false");});
+  document.querySelectorAll("#statusSeg button").forEach(function(x){
+    x.setAttribute("aria-pressed",String(x.dataset.st===st));});
+  renderDict(); buildDeck(); resetQuiz(); refreshSeg();
+}
 function catColor(c){return "var("+CATBY[c].v+")";}
+function dueTag(id){
+  var n=dueIn(id);
+  if(n===null) return "<span></span>";
+  if(n<=0) return '<span class="box-tag" data-now="1">今日の復習</span>';
+  return '<span class="box-tag">次の復習まで '+n+' 日</span>';
+}
 function esc(s){return String(s).replace(/[&<>"]/g,function(m){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m];});}
 
 /* ── 辞典 ── */
 var entriesEl=document.getElementById("entries"),
     dictHint=document.getElementById("dictHint");
+function refreshSeg(){
+  var base=pool(true);   /* 分野・検索だけ効かせた母集団の中で数える */
+  document.getElementById("sn-due").textContent=base.filter(function(d){return isDue(d.id);}).length;
+  document.getElementById("sn-ng").textContent=base.filter(function(d){return isWeak(d.id);}).length;
+}
 function renderDict(){
   var list=pool();
   dictHint.textContent=list.length+" 語を表示中（全 "+DATA.length+" 語）";
@@ -653,7 +749,8 @@ function renderDict(){
       '<p class="mean">'+esc(d.m)+'</p>'+
       '<p class="ex"><b>用例</b>'+esc(d.e)+'</p>'+
       '<p class="rel"><span>'+esc(d.k)+'</span></p>'+
-      '<div class="e-foot"><div class="marks" role="group" aria-label="'+esc(d.w)+'の習得状況">'+
+      '<div class="e-foot">'+dueTag(d.id)+
+      '<div class="marks" role="group" aria-label="'+esc(d.w)+'の習得状況">'+
         [1,2,3].map(function(n){
           return '<button type="button" data-id="'+d.id+'" data-lv="'+n+'" aria-pressed="'+(lv===n)+'">'+LV[n]+'</button>';
         }).join("")+
@@ -679,7 +776,7 @@ chipsEl.addEventListener("click",function(ev){
   var id=b.dataset.cat, i=filter.cats.indexOf(id);
   if(i<0) filter.cats.push(id); else filter.cats.splice(i,1);
   b.setAttribute("aria-pressed", i<0?"true":"false");
-  renderDict(); buildDeck(); resetQuiz();
+  renderDict(); buildDeck(); resetQuiz(); refreshSeg();
 });
 document.getElementById("statusSeg").addEventListener("click",function(ev){
   var b=ev.target.closest("button"); if(!b) return;
@@ -688,7 +785,7 @@ document.getElementById("statusSeg").addEventListener("click",function(ev){
   renderDict(); buildDeck(); resetQuiz();
 });
 document.getElementById("q").addEventListener("input",function(){
-  filter.q=this.value; renderDict(); buildDeck(); resetQuiz();
+  filter.q=this.value; renderDict(); buildDeck(); resetQuiz(); refreshSeg();
 });
 
 /* ── 暗記カード ── */
@@ -743,18 +840,40 @@ document.getElementById("reshuffle").addEventListener("click",buildDeck);
 /* ── 四択テスト ── */
 var quizEl=document.getElementById("quiz");
 var quiz=null;
+/* 出題の優先度。復習の期限が来た語 → まだ一度も出していない語 → 苦手 → それ以外 */
+function qWeight(id){
+  if(isDue(id)) return 4;
+  var r=store[kOf(id)];
+  if(!r||!r.t) return 3;
+  if(isWeak(id)) return 2;
+  return 1;
+}
 function makeQuiz(){
   var p=pool().slice();
   if(p.length<4) return null;
-  shuffle(p);
-  var qs=p.slice(0,Math.min(10,p.length)).map(function(d,i){
+  var n=Math.min(10,p.length);
+  /* 優先度が高く、最後に出題してから間が空いている順に並べ、その上位だけを
+     シャッフルして n 問取る。直前に出た語が続けて出ることを防ぎつつ、
+     毎回まったく同じ組にもならないようにするための二段構え。 */
+  p.sort(function(a,b){
+    var w=qWeight(b.id)-qWeight(a.id); if(w) return w;
+    return ((store[kOf(a.id)]||{}).t||0)-((store[kOf(b.id)]||{}).t||0);
+  });
+  var head=p.slice(0,Math.min(p.length,n*2));
+  shuffle(head);
+  var now=Date.now();
+  var qs=head.slice(0,n).map(function(d,i){
+    rec(d.id).t=now;   /* 出題時刻を控える。次回の既出除外はこれを見る */
     var mode=i%2===0?"w2m":"m2w";
     var same=DATA.filter(function(x){return x.c===d.c&&x.id!==d.id;});
     var src=same.length>=3?same:DATA.filter(function(x){return x.id!==d.id;});
     var opts=shuffle(src.slice()).slice(0,3).concat([d]);
     return {d:d,mode:mode,opts:shuffle(opts)};
   });
-  return {qs:qs,i:0,score:0,miss:[],answered:false};
+  save();
+  /* 解答の有無は各設問の chosen で持つ。こうしておくと、別のタブに移って
+     戻ってきたときも「答えたあとの画面」をそのまま描き直せる。 */
+  return {qs:qs,i:0,score:0,miss:[]};
 }
 function resetQuiz(){quiz=null; if(!document.getElementById("p-quiz").hidden) renderQuiz();}
 function renderQuiz(){
@@ -777,9 +896,14 @@ function renderQuiz(){
       (quiz.miss.length?'<div class="misses"><h4>取りこぼした語</h4><ul style="margin:0;padding-left:0;list-style:none">'+
         quiz.miss.map(function(d){return '<li><b>'+esc(d.w)+'</b>（'+esc(d.r)+'）　'+esc(d.m)+'</li>';}).join("")+
         '</ul></div>':'')+
-      '<button class="mini" style="margin-top:18px" id="again" type="button">もう一度 10 問</button>'+
-      '</div>';
+      '<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:18px">'+
+        '<button class="mini" id="again" type="button">もう一度 10 問</button>'+
+        (quiz.miss.length?'<button class="mini" id="missCard" type="button">取りこぼした語をカードで</button>':'')+
+      '</div></div>';
     document.getElementById("again").onclick=function(){quiz=null;renderQuiz();};
+    if(quiz.miss.length) document.getElementById("missCard").onclick=function(){
+      applyFilter("ng"); show("card");
+    };
     return;
   }
   var q=quiz.qs[quiz.i], d=q.d, w2m=q.mode==="w2m";
@@ -792,27 +916,102 @@ function renderQuiz(){
         return '<button class="opt" type="button" data-id="'+o.id+'"><span class="n">'+(i+1)+'</span><span>'+
           esc(w2m?o.m:o.w+"（"+o.r+"）")+'</span></button>';
       }).join("")+
-    '</div><div id="fb"></div>';
+    '</div><span class="hint" style="text-align:center">1 〜 4 のキーでも選べます</span>'+
+    '<div id="fb"></div>';
+  if(q.chosen!=null) markAnswered(q,false);   /* 別のタブから戻ってきた場合 */
   document.getElementById("opts").addEventListener("click",function(ev){
-    var b=ev.target.closest(".opt"); if(!b||quiz.answered) return;
-    quiz.answered=true;
-    var chosen=Number(b.dataset.id), ok=chosen===d.id;
-    this.querySelectorAll(".opt").forEach(function(x){
-      x.disabled=true;
-      if(Number(x.dataset.id)===d.id) x.classList.add("correct");
-      else if(x===b) x.classList.add("wrong");
-    });
+    var b=ev.target.closest(".opt"); if(!b||q.chosen!=null) return;
+    q.chosen=Number(b.dataset.id);
     var r=rec(d.id);
-    if(ok){ quiz.score++; r.ok++; if(r.lv<3) r.lv=r.lv===2?3:2; }
-    else { r.ng++; quiz.miss.push(d); r.lv=1; }
-    save(); refreshCounters();
-    document.getElementById("fb").innerHTML='<div class="q-feedback">'+
-      '<div class="fw">'+esc(d.w)+'<span style="font-family:var(--sans);font-size:12px;color:var(--ink-3);font-weight:400;margin-left:8px">'+esc(d.r)+'</span></div>'+
-      esc(d.m)+'<div style="margin-top:8px;font-size:13px;color:var(--ink-2)">用例：'+esc(d.e)+'</div>'+
-      '<button class="mini" style="margin-top:12px" id="next" type="button">次の問題へ</button></div>';
-    document.getElementById("next").focus();
-    document.getElementById("next").onclick=function(){quiz.i++;quiz.answered=false;renderQuiz();};
+    if(q.chosen===d.id){ quiz.score++; r.ok++; schedule(r,(r.box||0)+1); if(r.lv<3) r.lv=r.lv===2?3:2; }
+    /* 誤答しても「覚えた」から一気に「まだ」へは落とさない。一段だけ下げる */
+    else { r.ng++; quiz.miss.push(d); schedule(r,0); r.lv=(r.lv===3?2:1); }
+    save(); refreshCounters(); refreshToday(); refreshSeg();
+    markAnswered(q,true);
   });
+}
+/* 解答後の見た目と解説。設問の chosen だけを見て組み立てるので、何度呼んでも同じになる */
+function markAnswered(q,focus){
+  var d=q.d;
+  quizEl.querySelectorAll(".opt").forEach(function(x){
+    x.disabled=true;
+    var id=Number(x.dataset.id);
+    if(id===d.id) x.classList.add("correct");
+    else if(id===q.chosen) x.classList.add("wrong");
+  });
+  document.getElementById("fb").innerHTML='<div class="q-feedback">'+
+    '<div class="fw">'+esc(d.w)+'<span style="font-family:var(--sans);font-size:12px;color:var(--ink-3);font-weight:400;margin-left:8px">'+esc(d.r)+'</span></div>'+
+    esc(d.m)+'<div style="margin-top:8px;font-size:13px;color:var(--ink-2)">用例：'+esc(d.e)+'</div>'+
+    '<button class="mini" style="margin-top:12px" id="next" type="button">次の問題へ</button></div>';
+  var nx=document.getElementById("next");
+  nx.onclick=function(){quiz.i++;renderQuiz();};
+  if(focus) nx.focus();
+}
+
+window.addEventListener("keydown",function(ev){
+  if(document.getElementById("p-quiz").hidden) return;
+  if(ev.metaKey||ev.ctrlKey||ev.altKey) return;
+  var t=document.activeElement;
+  if(t&&/^(INPUT|TEXTAREA)$/.test(t.tagName)) return;
+  if(ev.key<"1"||ev.key>"4") return;
+  var b=quizEl.querySelectorAll(".opt")[Number(ev.key)-1];
+  if(b&&!b.disabled){ev.preventDefault();b.click();}
+});
+
+/* ── 今日の復習（タブ直下の案内） ── */
+var todayEl=document.getElementById("today"),
+    todayTxt=document.getElementById("todayTxt"),
+    todayAct=document.getElementById("todayAct");
+function refreshToday(){
+  var due =DATA.filter(function(d){return isDue(d.id);}).length;
+  var weak=DATA.filter(function(d){return isWeak(d.id);}).length;
+  var fresh=DATA.filter(function(d){return lvOf(d.id)===0;}).length;
+  var txt,acts=[],tone="";
+  if(due){
+    txt='今日の復習が <b>'+due+'</b> 語あります。';
+    acts=[["カードで復習","due","card"],["四択で確かめる","due","quiz"]];
+  }else if(fresh===DATA.length){
+    txt='まだ記録がありません。暗記カードを 1 枚めくるところから始めましょう。';
+    acts=[["暗記カードを始める","all","card"]];
+  }else{
+    tone="calm";
+    txt='今日ぶんの復習は終わりました。';
+    if(weak)  { txt+='苦手な語が <b>'+weak+'</b> 語。';  acts.push(["苦手を復習","ng","card"]); }
+    if(fresh) { txt+='未仕分けが <b>'+fresh+'</b> 語。'; acts.push(["未仕分けをカードで","0","card"]); }
+  }
+  todayEl.hidden=false;
+  if(tone) todayEl.setAttribute("data-tone",tone); else todayEl.removeAttribute("data-tone");
+  todayTxt.innerHTML=txt;
+  todayAct.innerHTML=acts.map(function(a){
+    return '<button class="mini" type="button" data-st="'+a[1]+'" data-v="'+a[2]+'">'+a[0]+'</button>';
+  }).join("");
+}
+todayAct.addEventListener("click",function(ev){
+  var b=ev.target.closest("button"); if(!b) return;
+  applyFilter(b.dataset.st); show(b.dataset.v);
+});
+
+/* ── 学習状況の持ち出し ── */
+function exportText(){
+  return JSON.stringify({app:"gendaibun-keyword",v:3,at:new Date().toISOString(),data:store});
+}
+/* 書き出した全体 {app,v,at,data} でも、data の中身だけでも受け取る */
+function parseImport(txt){
+  var o=JSON.parse(txt);
+  if(!o||typeof o!=="object") throw new Error("形式が違います");
+  var d=(o.data&&typeof o.data==="object")?o.data:(o.app?null:o);
+  if(!d) throw new Error("学習状況が入っていません");
+  var keys=Object.keys(d);
+  if(!keys.length) throw new Error("記録が 1 語も入っていません");
+  keys.forEach(function(k){
+    var r=d[k];
+    if(!r||typeof r!=="object") throw new Error("「"+k+"」の記録が壊れています");
+  });
+  return d;
+}
+function refreshAll(){
+  refreshCounters(); refreshToday(); refreshSeg();
+  renderDict(); buildDeck(); resetQuiz(); renderProg();
 }
 
 /* ── 進捗 ── */
@@ -835,7 +1034,12 @@ function renderProg(){
         '<i class="l1" style="width:'+(a[1]/g.length*100)+'%"></i>'+
       '</div><span class="pc">'+pct+'%</span></div>';
   }).join("");
-  var weak=DATA.filter(function(d){var r=store[d.w]; return lvOf(d.id)===1||(r&&r.ng>r.ok);})
+  var p0=0,p1=0,p7=0,p8=0;
+  DATA.forEach(function(d){
+    var k=dueIn(d.id); if(k===null) return;
+    if(k<=0) p0++; else if(k===1) p1++; else if(k<=7) p7++; else p8++;
+  });
+  var weak=DATA.filter(function(d){return isWeak(d.id);})
     .sort(function(a,b){return ((store[b.w]&&store[b.w].ng)||0)-((store[a.w]&&store[a.w].ng)||0);});
   document.getElementById("prog").innerHTML=
     '<div class="tally">'+
@@ -843,6 +1047,16 @@ function renderProg(){
       '<div><div class="n" style="color:var(--yama)">'+c2+'</div><div class="l">あいまい</div></div>'+
       '<div><div class="n" style="color:var(--shu)">'+c1+'</div><div class="l">まだ</div></div>'+
       '<div><div class="n" style="color:var(--ink-3)">'+untouched+'</div><div class="l">未仕分け</div></div>'+
+    '</div>'+
+    '<div><h2 class="sect-h">復習の予定</h2>'+
+      '<div class="plan">'+
+        '<div><div class="n">'+p0+'</div><div class="l">今日</div></div>'+
+        '<div><div class="n">'+p1+'</div><div class="l">明日</div></div>'+
+        '<div><div class="n">'+p7+'</div><div class="l">7 日以内</div></div>'+
+        '<div><div class="n">'+p8+'</div><div class="l">その先</div></div>'+
+      '</div>'+
+      '<p class="io-note" style="margin-top:10px">「覚えた」と四択の正解で、次に出題する日が 1 → 2 → 4 → 7 → 14 日と延びます。'+
+      '「まだ」と誤答はその日のうちに戻ります。</p>'+
     '</div>'+
     '<div><h2 class="sect-h">分野別の習得率</h2>'+
       '<div class="bars">'+rows+'</div>'+
@@ -853,25 +1067,87 @@ function renderProg(){
         '<span><i style="background:var(--surface-2)"></i>未仕分け</span>'+
       '</div></div>'+
     '<div><h2 class="sect-h">重点復習リスト'+(weak.length?'（'+weak.length+' 語）':'')+'</h2>'+
+      (weak.length?'<div class="io-row" style="margin-bottom:12px">'+
+        '<button class="mini" id="weakCard" type="button">この '+weak.length+' 語をカードで</button>'+
+        (weak.length>=4?'<button class="mini" id="weakQuiz" type="button">四択で確かめる</button>':'')+
+      '</div>':'')+
       (weak.length?'<div class="weak">'+weak.map(function(d){
         var r=store[d.w]||{};
         return '<a href="#e'+d.id+'" data-id="'+d.id+'">'+esc(d.w)+(r.ng?'<small>誤答'+r.ng+'</small>':'')+'</a>';
       }).join("")+'</div>':'<p style="color:var(--ink-3);font-size:13.5px;margin:0">「まだ」に仕分けした語や、四択で誤答した語がここに集まります。</p>')+
     '</div>'+
+    '<div><h2 class="sect-h">学習状況の持ち出し</h2>'+
+      '<div class="io">'+
+        '<p class="io-note">この辞典の記録は、いま見ている端末のブラウザにしか残りません。'+
+        '機種を変えるときや、学校と自宅で使い分けるときは、ここで持ち出してください。</p>'+
+        '<div class="io-row">'+
+          '<button class="mini" id="expFile" type="button">ファイルに書き出す</button>'+
+          '<button class="mini" id="expCopy" type="button">文字列をコピー</button>'+
+          '<button class="mini" id="impFile" type="button">ファイルから読み込む</button>'+
+          '<span class="io-msg" id="ioMsg"></span>'+
+        '</div>'+
+        '<input type="file" id="impInput" accept="application/json,.json" hidden>'+
+        '<label class="io-note" for="impText">コピーした文字列は、移した先の端末でここに貼り付けます。</label>'+
+        '<textarea id="impText" spellcheck="false" placeholder="ここに貼り付け"></textarea>'+
+        '<div class="io-row"><button class="mini" id="impPaste" type="button">貼り付けから読み込む</button></div>'+
+        '<p class="io-note">読み込むと、この端末にいま入っている学習状況は置き換わります。</p>'+
+      '</div>'+
+    '</div>'+
     '<button class="danger" id="resetAll" type="button">学習状況をすべて消去</button>';
+  var ioMsg=document.getElementById("ioMsg");
+  function msg(t,err){ioMsg.textContent=t; if(err) ioMsg.setAttribute("data-err","1"); else ioMsg.removeAttribute("data-err");}
+  function load(txt){
+    var d;
+    try{ d=parseImport(txt); }catch(e){ msg("読み込めません（"+e.message+"）",1); return; }
+    var n=Object.keys(d).length;
+    if(!confirm(n+" 語ぶんの記録を読み込み、この端末の学習状況を置き換えます。よろしいですか？")) return;
+    store=d; save(); refreshAll();
+    /* renderProg で作り直されるため、描き直したあとの要素にメッセージを出す */
+    document.getElementById("ioMsg").textContent=n+" 語ぶんを読み込みました。";
+  }
+  document.getElementById("expFile").onclick=function(){
+    var d=new Date(), ymd=d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0");
+    var url=URL.createObjectURL(new Blob([exportText()],{type:"application/json"}));
+    var a=document.createElement("a");
+    a.href=url; a.download="gendaibun-progress-"+ymd+".json";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+    msg("書き出しました。");
+  };
+  document.getElementById("expCopy").onclick=function(){
+    var t=exportText(), ta=document.getElementById("impText");
+    /* クリップボードが使えない環境（古い端末・file:// など）では、欄に出して選択させる */
+    function fallback(){ta.value=t;ta.focus();ta.select();msg("この欄をコピーしてください。");}
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(t).then(function(){msg("コピーしました。");},fallback);
+    }else fallback();
+  };
+  document.getElementById("impFile").onclick=function(){document.getElementById("impInput").click();};
+  document.getElementById("impInput").onchange=function(){
+    var f=this.files&&this.files[0]; if(!f) return;
+    var fr=new FileReader();
+    fr.onload=function(){load(String(fr.result));};
+    fr.onerror=function(){msg("ファイルを読めませんでした。",1);};
+    fr.readAsText(f);
+  };
+  document.getElementById("impPaste").onclick=function(){
+    var v=document.getElementById("impText").value.trim();
+    if(!v){msg("貼り付け欄が空です。",1);return;}
+    load(v);
+  };
   document.getElementById("resetAll").onclick=function(){
     if(confirm("すべての学習状況を消去します。よろしいですか？")){
-      store={};save();refreshCounters();renderDict();buildDeck();resetQuiz();renderProg();
+      store={}; save(); refreshAll();
     }
   };
+  if(document.getElementById("weakCard"))
+    document.getElementById("weakCard").onclick=function(){applyFilter("ng");show("card");};
+  if(document.getElementById("weakQuiz"))
+    document.getElementById("weakQuiz").onclick=function(){applyFilter("ng");show("quiz");};
   document.querySelector("#prog .weak")&&document.querySelector("#prog .weak").addEventListener("click",function(ev){
     var a=ev.target.closest("a"); if(!a) return;
     ev.preventDefault();
-    filter.q=""; filter.st="all"; filter.cats=[];
-    document.getElementById("q").value="";
-    document.querySelectorAll("#catChips .chip").forEach(function(x){x.setAttribute("aria-pressed","false");});
-    document.querySelectorAll("#statusSeg button").forEach(function(x){x.setAttribute("aria-pressed",String(x.dataset.st==="all"));});
-    renderDict(); buildDeck(); resetQuiz(); show("dict");
+    applyFilter("all"); show("dict");
     var el=document.getElementById("e"+a.dataset.id);
     if(el){el.scrollIntoView({behavior:"smooth",block:"center"});}
   });
@@ -897,9 +1173,9 @@ themeBtn.addEventListener("click",function(){
   var next=cur==="dark"?"light":(cur==="light"?null:"dark");
   if(next) document.documentElement.setAttribute("data-theme",next);
   else document.documentElement.removeAttribute("data-theme");
-  try{localStorage.setItem(KEY+"-theme",next||"");}catch(e){}
+  try{localStorage.setItem(KEY_THEME,next||"");}catch(e){}
 });
-try{var t=localStorage.getItem(KEY+"-theme"); if(t) document.documentElement.setAttribute("data-theme",t);}catch(e){}
+try{var t=localStorage.getItem(KEY_THEME); if(t) document.documentElement.setAttribute("data-theme",t);}catch(e){}
 
 /* ── 使い方 ── */
 var helpDlg=document.getElementById("help");
@@ -907,7 +1183,7 @@ function openHelp(){
   if(typeof helpDlg.showModal==="function") helpDlg.showModal();
   else helpDlg.setAttribute("open","");
 }
-function markSeen(){try{localStorage.setItem(KEY+"-seen","1");}catch(e){}}
+function markSeen(){try{localStorage.setItem(KEY_SEEN,"1");}catch(e){}}
 function closeHelp(){
   markSeen();
   if(typeof helpDlg.close==="function") helpDlg.close();
@@ -923,11 +1199,13 @@ helpDlg.addEventListener("keydown",function(ev){      /* <dialog> 非対応環�
 helpDlg.addEventListener("click",function(ev){        /* 外側をクリック */
   if(ev.target===helpDlg) closeHelp();
 });
-var helpSeen=""; try{helpSeen=localStorage.getItem(KEY+"-seen")||"";}catch(e){}
+var helpSeen=""; try{helpSeen=localStorage.getItem(KEY_SEEN)||"";}catch(e){}
 if(!helpSeen) openHelp();   /* 初回だけ自動で開く */
 
 document.getElementById("totalCount").textContent=DATA.length;
 refreshCounters();
+refreshToday();
+refreshSeg();
 renderDict();
 buildDeck();
 </script>
