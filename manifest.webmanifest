@@ -1,0 +1,17 @@
+{
+  "name": "現代文キーワード辞典",
+  "short_name": "現代文キーワード",
+  "description": "大学入試 現代文（評論）のキーワードを8分野で引ける辞典。暗記カード・四択テスト・復習の予定つき。",
+  "lang": "ja",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F2F2EE",
+  "theme_color": "#27466F",
+  "icons": [
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

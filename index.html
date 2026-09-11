@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="大学入試 現代文（評論）のキーワード182語を8分野で引ける辞典。暗記カード・四択テスト・分野別の進捗つき。">
+<meta name="theme-color" content="#27466F">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icon-180.png">
 <title>現代文キーワード辞典</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -255,6 +259,42 @@ footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
   .bar-row .pc{text-align:left}
 }
 
+/* ── 範囲の持ち出し（リンク・紙のテスト） ── */
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.sheet-form{display:flex;flex-direction:column;gap:14px}
+.sheet-form label{font-size:12.5px;letter-spacing:.1em;color:var(--ink-3);display:block;
+  margin-bottom:5px}
+.sheet-form .seg{margin:0}
+
+/* 紙のテスト。画面では隠し、印刷のときだけ本文と入れ替える */
+#sheet{display:none}
+@media print{
+  body>*:not(#sheet){display:none!important}
+  #sheet{display:block!important;background:#fff;color:#000;
+    font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:11pt;line-height:1.9}
+  @page{size:A4;margin:16mm 14mm}
+  #sheet h1{font-size:16pt;letter-spacing:.08em;line-height:1.3;margin:0 0 3mm;font-weight:700}
+  #sheet .s-meta{font-family:"Hiragino Sans","Yu Gothic",sans-serif;font-size:8.5pt;
+    color:#444;line-height:1.4;display:flex;justify-content:space-between;gap:6mm;flex-wrap:wrap;
+    border-bottom:.4mm solid #000;padding-bottom:1.5mm;margin-bottom:2.5mm}
+  #sheet .s-name{font-family:"Hiragino Sans","Yu Gothic",sans-serif;font-size:9pt;line-height:1.6;
+    display:flex;gap:4mm;align-items:flex-end;margin-bottom:4mm}
+  #sheet .s-name i{display:inline-block;border-bottom:.3mm solid #000;font-style:normal}
+  #sheet .s-dir{font-size:10pt;line-height:1.5;margin:0 0 3mm}
+  #sheet ol{margin:0;padding-left:8mm}
+  #sheet .qs li{margin-bottom:2mm;line-height:1.45;break-inside:avoid}
+  #sheet .qs .qw{font-size:13pt;font-weight:700;letter-spacing:.06em}
+  #sheet .qs .qr{font-family:"Hiragino Sans","Yu Gothic",sans-serif;font-size:7.5pt;
+    color:#555;margin-left:2mm}
+  #sheet .qs .qm{font-size:10.5pt;line-height:1.55}
+  #sheet .qs .blank{display:block;border-bottom:.25mm solid #999;height:5.5mm;margin-top:.5mm}
+  #sheet .qs .blank.short{width:52mm}
+  #sheet .s-ans{break-before:page;padding-top:2mm}
+  #sheet .s-ans h2{font-size:13pt;letter-spacing:.1em;margin:0 0 3mm}
+  #sheet .s-ans li{font-size:9.5pt;line-height:1.75;margin-bottom:1.6mm;break-inside:avoid}
+  #sheet .s-ans .aw{font-weight:700}
+}
+
 /* ── 今日の復習 ── */
 .today{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:space-between;
   margin-top:20px;padding:13px 17px;background:var(--surface);border:1px solid var(--rule);
@@ -372,6 +412,11 @@ dialog#help::backdrop{background:rgba(23,32,42,.5)}
         </div>
         <span class="hint" id="dictHint"></span>
       </div>
+      <div class="tools">
+        <button class="mini" id="shareBtn" type="button">この範囲のリンクをコピー</button>
+        <button class="mini" id="printBtn" type="button">この範囲で紙のテストを作る</button>
+        <span class="io-msg" id="shareMsg"></span>
+      </div>
     </div>
     <div class="entries" id="entries"></div>
   </section>
@@ -409,6 +454,55 @@ dialog#help::backdrop{background:rgba(23,32,42,.5)}
     <span>大学入試 現代文 ／ 評論キーワード</span>
   </footer>
 </div>
+
+<section id="sheet" aria-hidden="true"></section>
+
+<dialog id="sheetDlg" aria-labelledby="sheetTitle">
+  <div class="help-head">
+    <h2 id="sheetTitle">紙のテストを作る</h2>
+    <button class="help-x" id="sheetClose" type="button" aria-label="閉じる">&times;</button>
+  </div>
+  <div class="help-body">
+    <div class="sheet-form">
+      <div>
+        <label id="sheetRangeLab">出題範囲</label>
+        <p class="io-note" id="sheetRange" style="margin:0"></p>
+      </div>
+      <div>
+        <label for="sheetNum">問題数</label>
+        <div class="seg" id="sheetNum" role="group" aria-labelledby="sheetNumLab">
+          <button type="button" data-n="10" aria-pressed="false">10 問</button>
+          <button type="button" data-n="15" aria-pressed="true">15 問</button>
+          <button type="button" data-n="20" aria-pressed="false">20 問</button>
+          <button type="button" data-n="30" aria-pressed="false">30 問</button>
+        </div>
+      </div>
+      <div>
+        <label>出題の向き</label>
+        <div class="seg" id="sheetMode" role="group" aria-label="出題の向き">
+          <button type="button" data-m="w2m" aria-pressed="true">語 → 意味</button>
+          <button type="button" data-m="m2w" aria-pressed="false">意味 → 語</button>
+          <button type="button" data-m="mix" aria-pressed="false">交互</button>
+        </div>
+      </div>
+      <div>
+        <label>解答</label>
+        <div class="seg" id="sheetAns" role="group" aria-label="解答をつけるか">
+          <button type="button" data-a="1" aria-pressed="true">つける</button>
+          <button type="button" data-a="0" aria-pressed="false">つけない</button>
+        </div>
+      </div>
+      <div class="help-note" style="margin:0">
+        <b>印刷について</b>
+        解答は最後のページに付きます。生徒に配る分は「つけない」で刷ってください。
+        A4 縦・等倍を想定しています。1 ページに収めたいときは 15 問までが目安です。
+      </div>
+    </div>
+  </div>
+  <div class="help-foot">
+    <button class="help-start" id="sheetPrint" type="button">印刷する</button>
+  </div>
+</dialog>
 
 <dialog id="help" aria-labelledby="helpTitle">
   <div class="help-head">
@@ -705,14 +799,18 @@ function pool(ignoreSt){
     return true;
   });
 }
+/* filter の中身をそのまま画面のボタンに反映する */
+function syncFilterUI(){
+  document.getElementById("q").value=filter.q;
+  document.querySelectorAll("#catChips .chip").forEach(function(x){
+    x.setAttribute("aria-pressed",String(filter.cats.indexOf(x.dataset.cat)>=0));});
+  document.querySelectorAll("#statusSeg button").forEach(function(x){
+    x.setAttribute("aria-pressed",String(x.dataset.st===filter.st));});
+}
 /* 絞り込みの一括変更（今日の復習バーと重点復習リストから呼ぶ） */
 function applyFilter(st){
   filter.st=st; filter.q=""; filter.cats=[];
-  document.getElementById("q").value="";
-  document.querySelectorAll("#catChips .chip").forEach(function(x){x.setAttribute("aria-pressed","false");});
-  document.querySelectorAll("#statusSeg button").forEach(function(x){
-    x.setAttribute("aria-pressed",String(x.dataset.st===st));});
-  renderDict(); buildDeck(); resetQuiz(); refreshSeg();
+  syncFilterUI(); renderDict(); buildDeck(); resetQuiz(); refreshSeg();
 }
 function catColor(c){return "var("+CATBY[c].v+")";}
 function dueTag(id){
@@ -1014,6 +1112,95 @@ function refreshAll(){
   renderDict(); buildDeck(); resetQuiz(); renderProg();
 }
 
+/* ── 範囲の持ち出し ── */
+const ST_LABEL={all:"すべて",due:"要復習",ng:"苦手","0":"未仕分け","1":"まだ","2":"あいまい","3":"覚えた"};
+function rangeLabel(){
+  var a=[filter.cats.length?filter.cats.map(function(x){return CATBY[x].name;}).join("・"):"全分野"];
+  if(filter.st!=="all") a.push(ST_LABEL[filter.st]);
+  if(filter.q.trim()) a.push("「"+filter.q.trim()+"」を含む語");
+  return a.join(" ／ ")+"（"+pool().length+" 語）";
+}
+/* いまの絞り込みをそのまま開けるURL。授業で範囲を配るのに使う */
+function rangeURL(){
+  var base=location.href.split("#")[0].split("?")[0];
+  var p=[];
+  if(filter.cats.length) p.push("c="+encodeURIComponent(filter.cats.join(",")));
+  if(filter.st!=="all")  p.push("st="+encodeURIComponent(filter.st));
+  if(filter.q.trim())    p.push("q="+encodeURIComponent(filter.q.trim()));
+  return base+(p.length?"?"+p.join("&"):"");
+}
+var shareMsg=document.getElementById("shareMsg");
+document.getElementById("shareBtn").addEventListener("click",function(){
+  var u=rangeURL();
+  function fallback(){ window.prompt("このURLをコピーしてください",u); shareMsg.textContent=""; }
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(u).then(function(){
+      shareMsg.textContent="コピーしました（"+rangeLabel()+"）";
+    },fallback);
+  }else fallback();
+});
+
+/* ── 紙のテスト ── */
+var sheetDlg=document.getElementById("sheetDlg"),
+    sheetEl=document.getElementById("sheet");
+var sheetOpt={n:15,m:"w2m",a:true};
+function openSheet(){
+  document.getElementById("sheetRange").textContent=rangeLabel();
+  if(typeof sheetDlg.showModal==="function") sheetDlg.showModal(); else sheetDlg.setAttribute("open","");
+}
+function closeSheet(){
+  if(typeof sheetDlg.close==="function") sheetDlg.close(); else sheetDlg.removeAttribute("open");
+}
+document.getElementById("printBtn").addEventListener("click",openSheet);
+document.getElementById("sheetClose").addEventListener("click",closeSheet);
+sheetDlg.addEventListener("click",function(ev){ if(ev.target===sheetDlg) closeSheet(); });
+["sheetNum","sheetMode","sheetAns"].forEach(function(id){
+  document.getElementById(id).addEventListener("click",function(ev){
+    var b=ev.target.closest("button"); if(!b) return;
+    this.querySelectorAll("button").forEach(function(x){x.setAttribute("aria-pressed",String(x===b));});
+    if(id==="sheetNum")      sheetOpt.n=Number(b.dataset.n);
+    else if(id==="sheetMode") sheetOpt.m=b.dataset.m;
+    else                      sheetOpt.a=b.dataset.a==="1";
+  });
+});
+function buildSheet(){
+  var list=shuffle(pool().slice()).slice(0,sheetOpt.n);
+  if(!list.length){ sheetEl.innerHTML=""; return 0; }
+  var d=new Date();
+  var qs=list.map(function(x,i){
+    var w2m = sheetOpt.m==="mix" ? i%2===0 : sheetOpt.m==="w2m";
+    return w2m
+      ? '<li><span class="qw">'+esc(x.w)+'</span><span class="qr">'+esc(x.r)+'</span>'+
+        '<span class="blank"></span></li>'
+      : '<li><span class="qm">'+esc(x.m)+'</span><span class="blank short"></span></li>';
+  }).join("");
+  var as=list.map(function(x,i){
+    var w2m = sheetOpt.m==="mix" ? i%2===0 : sheetOpt.m==="w2m";
+    return w2m
+      ? '<li>'+esc(x.m)+'</li>'
+      : '<li><span class="aw">'+esc(x.w)+'</span>（'+esc(x.r)+'）</li>';
+  }).join("");
+  var dir = sheetOpt.m==="w2m" ? "次の語の意味を書きなさい。"
+          : sheetOpt.m==="m2w" ? "次の意味に当たる語を書きなさい。"
+          : "次の語の意味、または意味に当たる語を書きなさい。";
+  sheetEl.innerHTML=
+    '<h1>現代文キーワード　確認テスト</h1>'+
+    '<div class="s-meta"><span>'+esc(rangeLabel())+'</span>'+
+      '<span>'+d.getFullYear()+' 年 '+(d.getMonth()+1)+' 月 '+d.getDate()+' 日</span></div>'+
+    '<div class="s-name"><span>組</span><i style="width:12mm"></i><span>番</span>'+
+      '<i style="width:12mm"></i><span>氏名</span><i style="width:46mm"></i></div>'+
+    '<p class="s-dir">'+dir+'</p>'+
+    '<ol class="qs">'+qs+'</ol>'+
+    (sheetOpt.a?'<section class="s-ans"><h2>解答</h2><ol>'+as+'</ol></section>':'');
+  return list.length;
+}
+document.getElementById("sheetPrint").addEventListener("click",function(){
+  if(!buildSheet()){ alert("この範囲には出題できる語がありません。絞り込みを見直してください。"); return; }
+  closeSheet();
+  /* ダイアログが閉じきってから印刷に入る */
+  setTimeout(function(){ window.print(); },120);
+});
+
 /* ── 進捗 ── */
 function refreshCounters(){
   var done=DATA.filter(function(d){return lvOf(d.id)===3;}).length;
@@ -1202,12 +1389,34 @@ helpDlg.addEventListener("click",function(ev){        /* 外側をクリック *
 var helpSeen=""; try{helpSeen=localStorage.getItem(KEY_SEEN)||"";}catch(e){}
 if(!helpSeen) openHelp();   /* 初回だけ自動で開く */
 
+/* ── URLで渡された範囲（授業で配るときに使う） ──
+   ?c=分野,分野 / ?st=all|due|ng|0|1|2|3 / ?q=検索語 / ?v=dict|card|quiz|prog */
+var startView="dict";
+(function(){
+  var p=new URLSearchParams(location.search);
+  var c=p.get("c");
+  if(c) filter.cats=c.split(",").filter(function(x){return !!CATBY[x];});
+  var st=p.get("st"); if(st&&ST_LABEL[st]) filter.st=st;
+  var q=p.get("q");   if(q) filter.q=q;
+  var v=p.get("v");   if(v&&VIEWS.indexOf(v)>=0) startView=v;
+  syncFilterUI();
+})();
+
+/* オフラインで開けるようにする。manifest を置いていない版（Claude Artifact）では
+   そもそも登録しない。file:// でも登録できないため、失敗は黙って捨てる。 */
+if(document.querySelector('link[rel="manifest"]')&&"serviceWorker" in navigator){
+  window.addEventListener("load",function(){
+    navigator.serviceWorker.register("sw.js").catch(function(){});
+  });
+}
+
 document.getElementById("totalCount").textContent=DATA.length;
 refreshCounters();
 refreshToday();
 refreshSeg();
 renderDict();
 buildDeck();
+show(startView);
 </script>
 </body>
 </html>
