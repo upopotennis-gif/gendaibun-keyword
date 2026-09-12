@@ -1,2 +1,5 @@
 .DS_Store
 artifact.html
+
+# 案内プリントのPDFは build-pdf.sh で作り直せるため持たない
+haifu/*.pdf

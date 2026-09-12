@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>現代文キーワード辞典 案内プリント</title>
+<style>
+:root{
+  --ink:#17202A; --ink-2:#4A5560; --ink-3:#7B848D;
+  --ai:#27466F; --shu:#B0442C; --rule:#D6D8D0;
+  --serif:"Hiragino Mincho ProN","Yu Mincho",serif;
+  --sans:"Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#E9E9E4;font-family:var(--sans);color:var(--ink);
+  font-feature-settings:"palt" 1;-webkit-font-smoothing:antialiased}
+.sheet{width:210mm;min-height:297mm;margin:10mm auto;padding:15mm 16mm;
+  background:#fff;box-shadow:0 2px 18px rgba(0,0,0,.14)}
+
+h1{font-family:var(--serif);font-size:24pt;font-weight:700;letter-spacing:.06em;
+  line-height:1.25;margin:0}
+.lead{font-size:10pt;color:var(--ink-2);line-height:1.65;margin:2.5mm 0 0}
+.rule{height:.6mm;background:var(--ink);margin:2.5mm 0 3.5mm}
+
+.access{display:flex;gap:7mm;align-items:center;
+  border:.35mm solid var(--rule);border-left:1.2mm solid var(--ai);
+  padding:4mm 5.5mm;margin-bottom:4mm}
+.access img{width:28mm;height:28mm;display:block}
+.access .u-lab{font-size:8pt;letter-spacing:.14em;color:var(--ink-3);margin-bottom:1.5mm}
+.access .u{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10.5pt;
+  color:var(--ai);word-break:break-all;line-height:1.5;font-weight:700}
+.access .note{font-size:8.5pt;color:var(--ink-2);line-height:1.7;margin:2.5mm 0 0}
+
+h2{font-family:var(--serif);font-size:13pt;font-weight:700;letter-spacing:.06em;
+  margin:0 0 2.5mm;padding-bottom:1.2mm;border-bottom:.35mm solid var(--rule);
+  display:flex;align-items:baseline;gap:3mm}
+h2 .t{font-family:var(--sans);font-size:7.5pt;letter-spacing:.12em;color:var(--ink-3);font-weight:400}
+section{margin-bottom:3.5mm}
+
+ol.steps{margin:0;padding:0;list-style:none;counter-reset:s}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:6mm 1fr;gap:0 2.5mm;
+  font-size:9.5pt;line-height:1.7;margin-bottom:1.4mm}
+ol.steps li>.st{min-width:0}
+ol.steps li::before{content:counter(s);font-family:var(--serif);font-weight:700;font-size:8.5pt;
+  color:#fff;background:var(--ai);border-radius:50%;width:5mm;height:5mm;
+  display:flex;align-items:center;justify-content:center;margin-top:1mm}
+p{margin:0 0 2mm;font-size:9.5pt;line-height:1.8}
+p:last-child{margin-bottom:0}
+b{font-weight:700}
+em{font-style:normal;background:linear-gradient(transparent 62%,#F0E0C8 62%);font-weight:700}
+
+.warn{border:.35mm solid var(--shu);background:#FCF4F2;padding:4mm 5.5mm}
+.warn h2{border-bottom-color:#E8C9C1;color:var(--shu)}
+.warn ul{margin:0;padding-left:5mm}
+.warn li{font-size:9pt;line-height:1.75;margin-bottom:1.8mm}
+.warn li:last-child{margin-bottom:0}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:0 7mm}
+footer{margin-top:3mm;padding-top:2mm;border-top:.35mm solid var(--rule);
+  font-size:8pt;color:var(--ink-3);display:flex;justify-content:space-between}
+
+@media print{
+  body{background:#fff}
+  .sheet{width:auto;min-height:0;margin:0;padding:0;box-shadow:none}
+  @page{size:A4 portrait;margin:14mm 15mm}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <h1>現代文キーワード辞典</h1>
+  <p class="lead">入試の評論文に出てくることば <b>285語</b> を、引く・覚える・試すためのサイトです。</p>
+  <div class="rule"></div>
+
+  <div class="access">
+    <img src="qr-site.png" alt="サイトのQRコード">
+    <div>
+      <div class="u-lab">ＵＲＬ</div>
+      <div class="u">https://upopotennis-gif.github.io/gendaibun-keyword/</div>
+      <p class="note">カメラアプリでQRコードを読み取るか、上のURLを直接入力してください。<br>
+      登録も、アプリのインストールも要りません。</p>
+    </div>
+  </div>
+
+  <section>
+    <h2>はじめにやること<span class="t">３ 分</span></h2>
+    <ol class="steps">
+      <li><div class="st">QRコードを読み取ってサイトを開く。</div></li>
+      <li><div class="st">最初に出てくる<b>「使い方」</b>を読んで、<b>「はじめる」</b>を押す。</div></li>
+      <li><div class="st"><b>「暗記カードを始める」</b>を押して、1枚めくってみる。ことばを見て意味を思い浮かべ、
+          画面をタップしてから <em>まだ ／ あいまい ／ 覚えた</em> で自分の状態を選ぶ。</div></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>毎日やること<span class="t">５ 分</span></h2>
+    <p>画面の上のほうに <b>「今日の復習が ○ 語あります」</b> という帯が出ます。
+    <em>そこのボタンを押すだけ</em>で、その日にやるべきことばだけが出てきます。</p>
+    <p>「覚えた」を重ねたことばは <b>1 → 2 → 4 → 7 → 14 日</b> と間隔をあけて出直してきます。
+    間違えたことばは、その日のうちにもう一度戻ってきます。</p>
+  </section>
+
+  <div class="cols">
+    <section>
+      <h2>ホーム画面に追加</h2>
+      <p>Safari で開いて<b>「共有」→「ホーム画面に追加」</b>を選ぶと、アプリのように開けます。
+      一度開いておけば、<em>電波がなくても使えます</em>。</p>
+    </section>
+    <section>
+      <h2>困ったとき</h2>
+      <p>使い方は、画面右上の<b>「使い方」</b>からいつでも読み返せます。
+      記録をすべて消したいときは、<b>進捗</b>の一番下にあるボタンから消せます。</p>
+    </section>
+  </div>
+
+  <section class="warn">
+    <h2>学習の記録について　必ず読んでください</h2>
+    <ul>
+      <li>仕分けやテストの記録は、<b>いま使っている端末のブラウザの中だけ</b>に保存されます。
+          学校や先生のサーバには送られず、誰かに見られることはありません。</li>
+      <li>そのかわり、<em>端末を初期化したり、別の端末で開いたりすると、記録は引き継がれません。</em></li>
+      <li>同じ端末を他の人と共有して使っている場合は、<b>記録もその人と共有されます</b>。
+          自分だけの記録にしたいときは、自分の端末で使ってください。</li>
+      <li>端末が変わる予定があるときは、<b>進捗 → 学習状況の持ち出し → 「文字列をコピー」</b>を押して、
+          出てきた文字をメモアプリなどに貼りつけて保存しておいてください。
+          新しい端末の同じ画面に貼りつければ、記録を戻せます。</li>
+    </ul>
+  </section>
+
+  <footer>
+    <span>現代文キーワード辞典　285語／8分野</span>
+    <span>国語科</span>
+  </footer>
+
+</div>
+</body>
+</html>
