@@ -3,3 +3,6 @@ artifact.html
 
 # 案内プリントのPDFは build-pdf.sh で作り直せるため持たない
 haifu/*.pdf
+
+# 動画の中間生成物（スライド画像・音声・分割クリップ）
+guide/.work/

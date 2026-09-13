@@ -154,6 +154,9 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none}
 .empty{padding:60px 0;text-align:center;color:var(--ink-3);font-size:14px}
 .empty b{display:block;font-family:var(--serif);font-size:20px;color:var(--ink-2);margin-bottom:6px}
 
+@keyframes flash{0%,35%{background:var(--ai-soft)}100%{background:transparent}}
+.entry.flash{animation:flash 2.6s ease-out}
+
 /* ── 暗記カード ── */
 .study{display:flex;flex-direction:column;gap:20px;align-items:center}
 .study-bar{width:100%;display:flex;align-items:center;gap:14px;justify-content:space-between;
@@ -331,6 +334,7 @@ footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
 .help-btn{border:1px solid var(--rule-2);border-radius:999px;padding:5px 13px;
   font-size:12px;color:var(--ink-2);background:var(--surface)}
 .help-btn:hover{border-color:var(--ai);color:var(--ai)}
+a.help-btn{text-decoration:none;display:inline-block;line-height:1.75}
 dialog#help{padding:0;border:1px solid var(--rule-2);border-radius:6px;
   background:var(--surface);color:var(--ink);box-shadow:var(--shadow);
   max-width:560px;width:calc(100% - 32px)}
@@ -375,6 +379,7 @@ dialog#help::backdrop{background:rgba(23,32,42,.5)}
     </div>
     <div class="mast-right">
       <span class="count">収録 <b id="totalCount">0</b> 語</span>
+      <a class="help-btn" href="guide/">学習ガイド</a>
       <button class="help-btn" id="helpBtn" type="button">使い方</button>
       <button class="theme-btn" id="themeBtn" type="button">表示切替</button>
     </div>
@@ -1509,7 +1514,7 @@ if(!helpSeen) openHelp();   /* 初回だけ自動で開く */
 
 /* ── URLで渡された範囲（授業で配るときに使う） ──
    ?c=分野,分野 / ?st=all|due|ng|0|1|2|3 / ?q=検索語 / ?v=dict|card|quiz|prog */
-var startView="dict";
+var startView="dict", jumpWord="";
 (function(){
   var p=new URLSearchParams(location.search);
   var c=p.get("c");
@@ -1517,6 +1522,7 @@ var startView="dict";
   var st=p.get("st"); if(st&&ST_LABEL[st]) filter.st=st;
   var q=p.get("q");   if(q) filter.q=q;
   var v=p.get("v");   if(v&&VIEWS.indexOf(v)>=0) startView=v;
+  jumpWord=p.get("w")||"";   /* ?w=見出し語 で辞典のその項目へ飛ぶ（学習ガイドから使う） */
   syncFilterUI();
 })();
 
@@ -1535,6 +1541,15 @@ refreshSeg();
 renderDict();
 buildDeck();
 show(startView);
+if(jumpWord){
+  var hit=DATA.filter(function(d){return d.w===jumpWord;})[0];
+  if(hit){
+    if(!document.getElementById("e"+hit.id)) applyFilter("all");  /* 絞り込みで隠れていれば解く */
+    show("dict");
+    var el=document.getElementById("e"+hit.id);
+    if(el){ el.classList.add("flash"); setTimeout(function(){el.scrollIntoView({block:"center"});},80); }
+  }
+}
 </script>
 </body>
 </html>

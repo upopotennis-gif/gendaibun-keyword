@@ -4,7 +4,7 @@
    同一オリジンはネットワーク優先（取れたら控えを更新し、駄目なら控えを返す）。
    こうしておくと、公開側を差し替えたときに古い版が居座らない。
    フォントだけは控え優先（版が変わらないため、毎回取りにいく必要がない）。 */
-const CACHE = "gendaibun-kw-v1";
+const CACHE = "gendaibun-kw-v2";
 const SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", function (e) {
@@ -39,6 +39,9 @@ self.addEventListener("fetch", function (e) {
   var req = e.request;
   if (req.method !== "GET") return;
   var url = new URL(req.url);
+
+  /* 動画は控えない。部分応答（206）で届くため Cache に入らず、容量も大きい */
+  if (/\.mp4$/i.test(url.pathname)) return;
 
   if (url.origin === self.location.origin) {
     e.respondWith(
