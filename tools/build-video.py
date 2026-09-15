@@ -4,6 +4,7 @@
     python3 tools/build-video.py guide/src/kindai.md            # 動画まで
     python3 tools/build-video.py guide/src/kindai.md --slides   # スライド画像だけ（見た目の確認用）
     python3 tools/build-video.py guide/src/kindai.md --voice Kyoko --rate 165
+    python3 tools/build-video.py guide/src/kindai.md --voice system   # 「システムの声」（Siriの声など）
 
 出力: guide/<code>.mp4（字幕トラック入り）と guide/<code>.vtt（ページの <track> 用）
 中間: guide/.work/<code>/ に置き、中身が変わっていないスライドや音声は作り直さない。
@@ -207,10 +208,28 @@ def ts(sec, sep):
     return f"{int(h):02d}:{int(m):02d}:{s:06.3f}".replace(".", sep)
 
 
+def system_voice(work, rate):
+    """「システムの声」の指紋を返す。
+
+    Siri の声は say -v で名前を指定できず、システムの声に設定したときだけ
+    声指定なしの say で使われる。設定を変えると同じ台本でも別の声になるため、
+    短い試し読みの中身から指紋を作り、音声の作り置きの鍵に混ぜる。
+    また、うっかり Kyoko に戻したまま作ると気づけないので、そのときは止める。
+    """
+    probe, ref = work / "probe-system.aiff", work / "probe-kyoko.aiff"
+    subprocess.run(["say", "-r", str(rate), "-o", str(probe), "近代の主体と客体"], check=True)
+    subprocess.run(["say", "-v", "Kyoko", "-r", str(rate), "-o", str(ref), "近代の主体と客体"], check=True)
+    if probe.read_bytes() == ref.read_bytes():
+        raise SystemExit("システムの声が Kyoko になっています。設定 → アクセシビリティ → 読み上げコンテンツ → "
+                         "システムの声 を Siri の声に戻してから、もう一度実行してください。")
+    return "system-" + hashlib.sha1(probe.read_bytes()).hexdigest()[:8]
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("src")
-    ap.add_argument("--voice", default="Kyoko")
+    ap.add_argument("--voice", default="system",
+                    help="system＝システムの声（Siriの声2など）。Kyoko などの名前も指定できる")
     ap.add_argument("--rate", type=int, default=165)
     ap.add_argument("--slides", action="store_true", help="スライド画像だけ作る")
     o = ap.parse_args()
@@ -253,12 +272,17 @@ def main():
     if o.slides:
         print("スライド画像:", work); return
 
+    if o.voice == "system":
+        vtag, vopt = system_voice(work, o.rate), []
+        print(f"  声: システムの声（{vtag}）", flush=True)
+    else:
+        vtag, vopt = o.voice, ["-v", o.voice]
     clips, subs, t = [], [], 0.0
     for i, ((ch, sc), png) in enumerate(zip(scenes, pngs)):
         spoken = G.speech(sc["narr"], words)
-        a = work / f"{i + 1:02d}-{h8(o.voice + str(o.rate) + spoken)}.aiff"
+        a = work / f"{i + 1:02d}-{h8(vtag + str(o.rate) + spoken)}.aiff"
         if not a.exists():
-            subprocess.run(["say", "-v", o.voice, "-r", str(o.rate), "-o", str(a), spoken], check=True)
+            subprocess.run(["say", *vopt, "-r", str(o.rate), "-o", str(a), spoken], check=True)
         clip = work / f"{i + 1:02d}-{h8(png.name + a.name)}.mp4"
         if not clip.exists():
             ff("-loop", 1, "-framerate", 30, "-i", png, "-i", a,
