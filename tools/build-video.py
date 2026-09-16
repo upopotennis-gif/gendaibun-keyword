@@ -22,7 +22,7 @@ import guide_src as G
 ROOT = G.ROOT
 FFMPEG = pathlib.Path("/Users/syota/Documents/00 Claude Code/09 ICT関係/議事録自動化/.bin/ffmpeg")
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-SITE = "渡邊梢太の現代文キーワード辞典"
+SITE = "現代文キーワード辞典"
 LEAD_IN, TAIL = 0.35, 0.75       # 各スライドの、話し始めまでの間と話し終えてからの間（秒）
 
 CSS = """

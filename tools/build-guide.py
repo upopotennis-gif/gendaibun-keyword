@@ -13,7 +13,7 @@ import guide_src as G
 
 ROOT = G.ROOT
 GUIDE = ROOT / "guide"
-SITE = "渡邊梢太の現代文キーワード辞典"
+SITE = "現代文キーワード辞典"
 e = html.escape
 
 TOKENS = """
