@@ -71,9 +71,20 @@ def display(text):
     return KEY.sub(lambda m: m.group(1), text)
 
 
+KATAKANA = re.compile(r"^[ァ-ヶー・／]+$")
+
+
 def speech(text, words):
-    """ナレーション用。{語} を辞典の読みがな（複数あれば最初）に置き換える。"""
-    return KEY.sub(lambda m: words[m.group(1)]["r"].split("・")[0], text)
+    """ナレーション用。{語} を辞典の読みがな（複数あれば最初）に置き換える。
+
+    ただしカタカナだけの語はそのまま読ませる。ひらがなにすると小さい「ぃ」「ぇ」を
+    大きく読み、「あいでんてぃてぃ」が「アイデンテイテイ」になった（2026-09 実測）。
+    カタカナなら合成音声は外来語として正しく読む。
+    """
+    def rd(m):
+        w = m.group(1)
+        return w.replace("・", "、").replace("／", "、") if KATAKANA.match(w) else words[w]["r"].split("・")[0]
+    return KEY.sub(rd, text)
 
 
 def check(doc, words):

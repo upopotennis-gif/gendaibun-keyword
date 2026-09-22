@@ -216,13 +216,21 @@ def system_voice(work, rate):
     短い試し読みの中身から指紋を作り、音声の作り置きの鍵に混ぜる。
     また、うっかり Kyoko に戻したまま作ると気づけないので、そのときは止める。
     """
+    # Siri の声は同じ文でも毎回同じ音になるとは限らない（声2で12回に1回ほど別の波形になった。
+    # 長さはほぼ同じで、声そのものは変わっていない）。1回の試し読みで指紋を決めると、たまたま
+    # 外れたときに全場面を作り直してしまうので、3回読ませて多数決をとる。
     probe, ref = work / "probe-system.aiff", work / "probe-kyoko.aiff"
-    subprocess.run(["say", "-r", str(rate), "-o", str(probe), "近代の主体と客体"], check=True)
     subprocess.run(["say", "-v", "Kyoko", "-r", str(rate), "-o", str(ref), "近代の主体と客体"], check=True)
-    if probe.read_bytes() == ref.read_bytes():
-        raise SystemExit("システムの声が Kyoko になっています。設定 → アクセシビリティ → 読み上げコンテンツ → "
-                         "システムの声 を Siri の声に戻してから、もう一度実行してください。")
-    return "system-" + hashlib.sha1(probe.read_bytes()).hexdigest()[:8]
+    seen = {}
+    for _ in range(3):
+        subprocess.run(["say", "-r", str(rate), "-o", str(probe), "近代の主体と客体"], check=True)
+        data = probe.read_bytes()
+        if data == ref.read_bytes():
+            raise SystemExit("システムの声が Kyoko になっています。設定 → アクセシビリティ → 読み上げコンテンツ → "
+                             "システムの声 を Siri の声に戻してから、もう一度実行してください。")
+        fp = hashlib.sha1(data).hexdigest()[:8]
+        seen[fp] = seen.get(fp, 0) + 1
+    return "system-" + max(seen, key=seen.get)
 
 
 def main():
