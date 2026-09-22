@@ -379,6 +379,7 @@ dialog#help::backdrop{background:rgba(23,32,42,.5)}
     </div>
     <div class="mast-right">
       <span class="count">収録 <b id="totalCount">0</b> 語</span>
+      <a class="help-btn" href="https://upopotennis-gif.github.io/kokugo-dojo/">国語道場トップ</a>
       <a class="help-btn" href="guide/">学習ガイド</a>
       <button class="help-btn" id="helpBtn" type="button">使い方</button>
       <button class="theme-btn" id="themeBtn" type="button">表示切替</button>
@@ -1107,6 +1108,7 @@ function renderQuiz(){
   }
   if(quiz.i>=quiz.qs.length){
     var n=quiz.qs.length;
+    if(!quiz.tk){ quiz.tk=1; if(window.Tsukumo) Tsukumo.finish(n,quiz.score); }   /* 結果は描き直されることがあるので1回だけ */
     quizEl.innerHTML='<div class="result">'+
       '<div class="q-label">結果</div>'+
       '<div class="score">'+quiz.score+'<small> / '+n+'</small></div>'+
@@ -1143,6 +1145,7 @@ function renderQuiz(){
   document.getElementById("opts").addEventListener("click",function(ev){
     var b=ev.target.closest(".opt"); if(!b||q.chosen!=null) return;
     q.chosen=Number(b.dataset.id);
+    if(window.Tsukumo) Tsukumo.answer(q.chosen===d.id);   /* 付喪神（道場共通/tsukumo） */
     var r=rec(d.id);
     if(q.chosen===d.id){ quiz.score++; r.ok++; schedule(r,(r.box||0)+1); if(r.lv<3) r.lv=r.lv===2?3:2; }
     /* 誤答しても「覚えた」から一気に「まだ」へは落とさない。一段だけ下げる */
@@ -1551,5 +1554,6 @@ if(jumpWord){
   }
 }
 </script>
+<script src="tsukumo.js" data-subject="gendai"></script>
 </body>
 </html>

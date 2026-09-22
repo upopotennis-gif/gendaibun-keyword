@@ -4,8 +4,8 @@
    同一オリジンはネットワーク優先（取れたら控えを更新し、駄目なら控えを返す）。
    こうしておくと、公開側を差し替えたときに古い版が居座らない。
    フォントだけは控え優先（版が変わらないため、毎回取りにいく必要がない）。 */
-const CACHE = "gendaibun-kw-v3";
-const SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png"];
+const CACHE = "gendaibun-kw-v4";
+const SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./tsukumo.js"];
 
 self.addEventListener("install", function (e) {
   e.waitUntil(
