@@ -61,6 +61,15 @@
     { id:"kicho",    subj:"kobun",  r:"chin", n:["きちょりん","几帳","御簾越しの君"], f:"恥ずかしがり屋。向こう側から、そっと答えを教えてくれる。" },
     { id:"wa",       subj:"kobun",  r:"chin", n:["わっか","車輪丸","御所車"], f:"牛車から転がり出た。行幸の日はそわそわしている。" },
     { id:"biwa",     subj:"kobun",  r:"ki",   n:["びわっこ","琵琶法師","玄象"], f:"弾けば無常の響き。平家の物語をそらで語れる。" },
+    // 古文（2026-11 追加）
+    { id:"karakasa", subj:"kobun",  r:"nami", n:["かさっこ","唐傘","傘の大明神"], f:"雨の日だけ張り切る。百年使われて、ついに一つ目が開いた。" },
+    { id:"hioke",    subj:"kobun",  r:"nami", n:["ひおけ","火桶","炭櫃の守"], f:"冬はつとめて、が口ぐせ。灰ばかりになるのは少し悲しい。" },
+    { id:"kushi",    subj:"kobun",  r:"nami", n:["くしっこ","黄楊櫛","玉櫛笥の姫"], f:"長い黒髪をとかすのが自慢。髪の長さで物語の姫を見分ける。" },
+    { id:"tsuzumi",  subj:"kobun",  r:"nami", n:["ぽんぽこ","小鼓","鼓の宮"], f:"打たれるほど良い音になる。今様に合わせて調子をとる。" },
+    { id:"koto",     subj:"kobun",  r:"chin", n:["ことりん","和琴","七絃の君"], f:"月の夜に誰かがかき鳴らすと、垣根の外まで聞こえてしまう。" },
+    { id:"fumi",     subj:"kobun",  r:"chin", n:["ふみっこ","結び文","文使ひの君"], f:"花の枝にそえて届けられる。返歌が来るまでそわそわしている。" },
+    { id:"tamate",   subj:"kobun",  r:"chin", n:["たまてっこ","玉手箱","浦島の箱"], f:"「開けるな」と言われると開けたくなる気持ちを知っている。" },
+    { id:"hagoromo", subj:"kobun",  r:"ki",   n:["はごろも","羽衣","天の羽衣"], f:"着れば月の都へ帰れる。ただし、着た人は物思いを忘れるという。" },
     // 漢文
     { id:"chikukan", subj:"kanbun", r:"nami", n:["ちくちく","竹簡","簡牘大師"], f:"紙より古い書物。ひもがほどけると言葉がこぼれる。" },
     { id:"sumi",     subj:"kanbun", r:"nami", n:["すみっこ","墨丸","松煙公"], f:"すればするほど香る。無口だが、書き下しは誰より速い。" },
@@ -88,8 +97,17 @@
       how:"古文・漢文・現代文で1セットずつ", test:function(s){ return ["kobun","kanbun","gendai"].every(function(k){ return (s.subj[k]||{}).sets > 0; }); },
       prog:function(s){ return [["kobun","kanbun","gendai"].filter(function(k){ return (s.subj[k]||{}).sets > 0; }).length, 3]; } },
     { id:"kura",     subj:"all", r:"hi", n:["くらっこ","土蔵","万宝の蔵"], f:"集めた付喪神たちの家。二十の仲間がそろうと扉が開く。",
-      how:"図鑑に20種", test:function(s){ return Object.keys(s.owned).length >= 20; }, prog:function(s){ return [Object.keys(s.owned).length, 20]; } }
+      how:"図鑑に20種", test:function(s){ return Object.keys(s.owned).length >= 20; }, prog:function(s){ return [Object.keys(s.owned).length, 20]; } },
+    // 秘・古文（2026-11 追加。図鑑では古文の欄に並ぶ）
+    { id:"fuzukue",  subj:"kobun", r:"hi", n:["ふづくえ","文机","物語の机"], f:"古文をたくさん読んだ人のそばに現れる。五十四帖を書いた机の末裔。",
+      how:"古文で通算500問正解", test:function(s){ return ((s.subj.kobun||{}).correct||0) >= 500; }, prog:function(s){ return [(s.subj.kobun||{}).correct||0, 500]; } },
+    { id:"kaioke",   subj:"kobun", r:"hi", n:["かいおけ","貝桶","合はせ貝の蔵"], f:"古文の仲間をみな迎え入れる蒔絵の桶。貝合わせの片割れもここで眠る。",
+      how:"古文の並・珍・稀の付喪神をすべてそろえる", test:function(s){ return kobunCount(s)[0] >= kobunCount(s)[1]; }, prog:function(s){ return kobunCount(s); } }
   ];
+  function kobunCount(s){
+    var list = CHARS.filter(function(c){ return c.subj === "kobun" && c.r !== "hi"; });
+    return [list.filter(function(c){ return s.owned[c.id]; }).length, list.length];
+  }
   var BY = {}; CHARS.forEach(function(c){ BY[c.id] = c; });
   var STARTERS = ["fude", "sumi", "enpitsu"];
 
@@ -158,7 +176,41 @@
     andon: { body: function(){ return circ(50,48,40,"rgba(255,214,120,.35)",{stroke:"none"}) + rect(28,14,44,8,"#3a2a1a",2) + rect(30,22,40,58,"#fff1c4") + line(50,22,50,80,"#3a2a1a",2) + line(30,51,70,51,"#3a2a1a",2) + rect(26,80,48,8,"#3a2a1a",2); },
       face:[50,40,9], lim:[30,70,44,94] },
     kura: { body: function(){ return path("M12 42 L50 14 L88 42 Z", "#2e2e34") + rect(20,42,60,44,"#f4f1ea") + path("M20 74 L80 74", "none", {stroke:"#9a9aa6","stroke-width":2}) + rect(40,60,20,26,"#6b4a2a",2) + circ(50,32,3,"#d9b340",{"stroke-width":1.5}); },
-      face:[50,52,10], lim:[20,80,54,92] }
+      face:[50,52,10], lim:[20,80,54,92] },
+    karakasa: { body: function(){ return rect(47,50,6,32,"#8b5a2b",2) + path("M53 82 Q53 92 44 90", "none", {"stroke-width":3,"stroke-linecap":"round"}) +
+        path("M10 52 Q50 -4 90 52 Q80 45 70 52 Q60 45 50 52 Q40 45 30 52 Q20 45 10 52 Z", "#d9534f") + line(50,8,30,50,"#a8322e",1.8) + line(50,8,70,50,"#a8322e",1.8) + circ(50,8,3,"#f3ead2",{"stroke-width":1.5}); },
+      face:[50,34,9], lim:[14,86,46,94] },
+    hioke: { body: function(){ return rect(16,38,68,46,"#9a6a3a",8) + line(16,52,84,52,"#6b4a2a",2) + rect(20,28,60,14,"#e6e0d4",6) + circ(42,33,4,"#e25c4a",{"stroke-width":1.5}) + circ(56,35,3.5,"#f08a3a",{"stroke-width":1.5}) +
+        path("M50 24 q-5 -6 0 -11 q5 -5 0 -10", "none", {stroke:"#b8b0a0","stroke-width":2}); },
+      face:[50,66,10], lim:[16,84,62,90] },
+    kushi: { body: function(){ var s = rect(16,52,68,28,"#e8bd5a",3); for(var x=23;x<80;x+=6) s += line(x,58,x,80,"#a8782a",1.6); return s + path("M14 54 Q50 8 86 54 Z", "#d9a441") + circ(66,36,4,"#e25c4a",{"stroke-width":1.5}) + circ(72,42,3,"#f59ab2",{"stroke-width":1.2}); },
+      face:[48,44,9], lim:[16,84,50,88] },
+    tsuzumi: { body: function(){ return path("M26 24 Q50 52 26 78 L74 78 Q50 52 74 24 Z", "#b0413e") + line(22,24,44,78,"#e0b43c",1.6) + line(78,24,56,78,"#e0b43c",1.6) +
+        el("ellipse",{cx:50,cy:23,rx:30,ry:8,fill:"#f3ead2",stroke:O,"stroke-width":2.5}) + el("ellipse",{cx:50,cy:79,rx:30,ry:8,fill:"#f3ead2",stroke:O,"stroke-width":2.5}); },
+      face:[50,50,7], lim:[39,61,54,94] },
+    koto: { body: function(){ var s = rect(30,6,40,88,"#c9995c",8) + rect(30,10,40,6,"#8a5a30",2) + rect(30,84,40,6,"#8a5a30",2);
+        for(var i=0;i<6;i++) s += line(35+i*6,16,35+i*6,84,"#f6efdc",1.2);
+        [[35,70],[41,62],[47,74],[53,64],[59,72],[65,60]].forEach(function(b){ s += rect(b[0]-2.5,b[1],5,4,"#f3ead2",1,{"stroke-width":1.2}); });
+        return s; },
+      face:[50,40,8], lim:[30,70,46,98] },
+    fumi: { body: function(){ return line(66,48,86,18,"#6b4a2a",2.5) + circ(84,20,4.5,"#f59ab2",{"stroke-width":1.5}) + circ(76,30,4,"#f59ab2",{"stroke-width":1.5}) + circ(86,32,3,"#fff",{"stroke-width":1.2}) +
+        rect(36,30,28,62,"#fdf6e3",3) + path("M36 32 L44 12 L50 22 L56 12 L64 32 Z", "#f3ead2") + line(36,36,64,36,"#c7b48a",1.5); },
+      face:[50,58,7], lim:[36,64,60,98] },
+    tamate: { body: function(){ return path("M38 26 q-6 -8 0 -14 q6 -6 0 -12", "none", {stroke:"#c8c8d8","stroke-width":2.5}) + path("M62 26 q6 -8 0 -14", "none", {stroke:"#c8c8d8","stroke-width":2.5}) +
+        rect(18,40,64,44,"#1f1f28",4) + rect(14,28,72,14,"#2b2b36",4) + path("M22 76 q8 -8 16 0 M62 76 q8 -8 16 0", "none", {stroke:"#d9b340","stroke-width":2}) +
+        line(14,35,86,35,"#d9b340",1.5) + line(50,28,50,84,"#c0392b",3) + path("M50 35 l-8 -6 l0 12 Z M50 35 l8 -6 l0 12 Z", "#c0392b", {"stroke-width":1.5}); },
+      face:[50,62,11,true], lim:[18,82,58,92] },
+    hagoromo: { body: function(){ return path("M16 32 Q34 52 10 74", "none", {stroke:"#f5b8d0","stroke-width":5,"stroke-linecap":"round"}) + path("M84 32 Q66 52 90 74", "none", {stroke:"#f5b8d0","stroke-width":5,"stroke-linecap":"round"}) +
+        path("M32 18 Q50 10 68 18 L80 82 Q65 72 50 86 Q35 72 20 82 Z", "#bfe3f0") + path("M40 18 L50 36 L60 18", "none", {stroke:"#6f9cc0","stroke-width":2.5}) +
+        path("M28 70 q6 -4 12 0 M60 70 q6 -4 12 0", "none", {stroke:"#ffffff","stroke-width":2}); },
+      face:[50,50,9], lim:[26,74,46,94] },
+    fuzukue: { body: function(){ return rect(28,20,34,18,"#fffaf0",2) + line(34,26,56,26,"#c7b48a",1.5) + line(34,32,50,32,"#c7b48a",1.5) + line(68,14,80,32,O,3) + path("M80 32 L83 37 L77 35 Z", O) +
+        rect(10,36,80,10,"#5a3418",3) + rect(16,46,68,28,"#7a4a26",4) + rect(18,74,8,14,"#5a3418",2) + rect(74,74,8,14,"#5a3418",2) + path("M30 66 q20 6 40 0", "none", {stroke:"#d9b340","stroke-width":1.8}); },
+      face:[50,56,10,true], lim:[16,84,54,92] },
+    kaioke: { body: function(){ return path("M26 32 L74 32 L82 42 L82 80 L74 88 L26 88 L18 80 L18 42 Z", "#1f1f28") + path("M24 22 L76 22 L86 32 L14 32 Z", "#2b2b36") +
+        path("M30 80 Q36 68 42 80 Z", "#d9b340", {"stroke-width":1.5}) + path("M58 80 Q64 68 70 80 Z", "#f4c7b5", {"stroke-width":1.5}) + line(18,42,82,42,"#d9b340",1.5) +
+        path("M50 22 L50 14 M44 14 Q50 8 56 14", "none", {stroke:"#c0392b","stroke-width":3}); },
+      face:[50,56,10,true], lim:[18,82,54,94] }
   };
 
   function faceSVG(sh, stage, dark){
