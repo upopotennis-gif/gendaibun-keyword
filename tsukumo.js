@@ -70,6 +70,15 @@
     { id:"fumi",     subj:"kobun",  r:"chin", n:["ふみっこ","結び文","文使ひの君"], f:"花の枝にそえて届けられる。返歌が来るまでそわそわしている。" },
     { id:"tamate",   subj:"kobun",  r:"chin", n:["たまてっこ","玉手箱","浦島の箱"], f:"「開けるな」と言われると開けたくなる気持ちを知っている。" },
     { id:"hagoromo", subj:"kobun",  r:"ki",   n:["はごろも","羽衣","天の羽衣"], f:"着れば月の都へ帰れる。ただし、着た人は物思いを忘れるという。" },
+    // 古文（2026-11-08 さらに追加）
+    { id:"mari",     subj:"kobun",  r:"nami", n:["まりっこ","鞠","鞠の精"], f:"蹴鞠の名人に千日蹴られて、ついに精が宿った。地面に落ちるのが大きらい。" },
+    { id:"eboshi",   subj:"kobun",  r:"nami", n:["えぼっこ","烏帽子","立烏帽子の君"], f:"頭の上がいちばん落ち着く。人前で脱がされるのは何より恥ずかしい。" },
+    { id:"mushikago",subj:"kobun",  r:"nami", n:["むしかご","虫籠","虫めづる籠"], f:"毛虫も鈴虫も分けへだてなく住まわせる。本地をたづねるのが好き。" },
+    { id:"hachi",    subj:"kobun",  r:"nami", n:["はちっこ","飛鉢","命蓮の鉢"], f:"米俵をのせて空を飛ぶ。山の上のお坊さんのところへ、今日も一直線。" },
+    { id:"fue",      subj:"kobun",  r:"chin", n:["ふえっこ","龍笛","葉二"], f:"月夜の朱雀門で、見知らぬ人と吹き合わせたことがある。" },
+    { id:"byobu",    subj:"kobun",  r:"chin", n:["びょうぶん","屏風","大和絵の屏風"], f:"四季の絵がかかれている。絵に合う和歌を書き添えてもらうのが夢。" },
+    { id:"kagurasuzu",subj:"kobun", r:"chin", n:["しゃらりん","神楽鈴","岩戸の鈴"], f:"ふれば神さまも思わず顔を出す。お祭りの日は朝から鳴りっぱなし。" },
+    { id:"tamaeda",  subj:"kobun",  r:"ki",   n:["たまえだ","玉の枝","蓬莱の玉の枝"], f:"根は銀、茎は金、実は白玉。本物かどうかは、作った匠だけが知っている。" },
     // 漢文
     { id:"chikukan", subj:"kanbun", r:"nami", n:["ちくちく","竹簡","簡牘大師"], f:"紙より古い書物。ひもがほどけると言葉がこぼれる。" },
     { id:"sumi",     subj:"kanbun", r:"nami", n:["すみっこ","墨丸","松煙公"], f:"すればするほど香る。無口だが、書き下しは誰より速い。" },
@@ -102,7 +111,9 @@
     { id:"fuzukue",  subj:"kobun", r:"hi", n:["ふづくえ","文机","物語の机"], f:"古文をたくさん読んだ人のそばに現れる。五十四帖を書いた机の末裔。",
       how:"古文で通算500問正解", test:function(s){ return ((s.subj.kobun||{}).correct||0) >= 500; }, prog:function(s){ return [(s.subj.kobun||{}).correct||0, 500]; } },
     { id:"kaioke",   subj:"kobun", r:"hi", n:["かいおけ","貝桶","合はせ貝の蔵"], f:"古文の仲間をみな迎え入れる蒔絵の桶。貝合わせの片割れもここで眠る。",
-      how:"古文の並・珍・稀の付喪神をすべてそろえる", test:function(s){ return kobunCount(s)[0] >= kobunCount(s)[1]; }, prog:function(s){ return kobunCount(s); } }
+      how:"古文の並・珍・稀の付喪神をすべてそろえる", test:function(s){ return kobunCount(s)[0] >= kobunCount(s)[1]; }, prog:function(s){ return kobunCount(s); } },
+    { id:"masukagami", subj:"kobun", r:"hi", n:["ますかがみ","真澄鏡","四鏡の神"], f:"昔の世をくもりなく映す鏡。千の正解を重ねた人の前にだけ現れる。",
+      how:"古文で通算1000問正解", test:function(s){ return ((s.subj.kobun||{}).correct||0) >= 1000; }, prog:function(s){ return [(s.subj.kobun||{}).correct||0, 1000]; } }
   ];
   function kobunCount(s){
     var list = CHARS.filter(function(c){ return c.subj === "kobun" && c.r !== "hi"; });
@@ -207,6 +218,32 @@
     fuzukue: { body: function(){ return rect(28,20,34,18,"#fffaf0",2) + line(34,26,56,26,"#c7b48a",1.5) + line(34,32,50,32,"#c7b48a",1.5) + line(68,14,80,32,O,3) + path("M80 32 L83 37 L77 35 Z", O) +
         rect(10,36,80,10,"#5a3418",3) + rect(16,46,68,28,"#7a4a26",4) + rect(18,74,8,14,"#5a3418",2) + rect(74,74,8,14,"#5a3418",2) + path("M30 66 q20 6 40 0", "none", {stroke:"#d9b340","stroke-width":1.8}); },
       face:[50,56,10,true], lim:[16,84,54,92] },
+    mari: { body: function(){ return circ(50,52,34,"#f6efdc") + path("M18 44 Q50 62 82 44", "none", {stroke:"#c0392b","stroke-width":5}) + path("M18 62 Q50 44 82 62", "none", {stroke:"#2e5d8c","stroke-width":5}) + circ(50,52,34,"none"); },
+      face:[50,48,10], lim:[16,84,52,92] },
+    eboshi: { body: function(){ return path("M30 84 L30 42 Q30 8 66 10 Q72 34 70 84 Z", "#26262c") + path("M40 30 Q52 22 62 26", "none", {stroke:"#55555f","stroke-width":2}) + rect(26,78,48,10,"#3a3a44",3) + line(30,83,70,83,"#d9b340",1.5); },
+      face:[50,60,9,true], lim:[30,70,58,94] },
+    mushikago: { body: function(){ var s = line(50,4,50,14,O,3) + rect(20,30,60,52,"#efe2bf",6); for(var x=28;x<=72;x+=8) s += line(x,32,x,80,"#b58a3a",1.6);
+        return s + path("M14 32 L50 12 L86 32 Z", "#8a5a30") + rect(18,80,64,6,"#8a5a30",2) + circ(70,72,3,"#3d6b4f",{"stroke-width":1}) + circ(74,72,3,"#3d6b4f",{"stroke-width":1}); },
+      face:[50,56,10], lim:[20,80,54,94] },
+    hachi: { body: function(){ return circ(28,88,7,"#ffffff",{"stroke-width":2}) + circ(40,92,8,"#ffffff",{"stroke-width":2}) + circ(60,92,8,"#ffffff",{"stroke-width":2}) + circ(72,88,7,"#ffffff",{"stroke-width":2}) +
+        rect(36,16,28,20,"#e8d48a",9) + line(43,18,43,34,"#b8a050",1.5) + line(57,18,57,34,"#b8a050",1.5) +
+        path("M18 44 Q18 80 50 80 Q82 80 82 44 Z", "#5a5a66") + el("ellipse",{cx:50,cy:44,rx:32,ry:8,fill:"#77778a",stroke:O,"stroke-width":2.5}); },
+      face:[50,60,10,true], lim:[18,82,56,96] },
+    fue: { body: function(){ var s = rect(39,4,22,92,"#6e4121",10); [52,62,72,82].forEach(function(y){ s += circ(50,y,2.6,"#1a1008",{"stroke-width":1}); });
+        return s + line(39,44,61,44,"#c0392b",2.5) + line(39,90,61,90,"#c0392b",2.5) + line(39,10,61,10,"#c0392b",2.5); },
+      face:[50,28,6], lim:[39,61,36,99] },
+    byobu: { body: function(){ return path("M12 24 L32 18 L32 82 L12 88 Z", "#e9c46a") + path("M32 18 L50 24 L50 88 L32 82 Z", "#d4ab48") + path("M50 24 L68 18 L68 82 L50 88 Z", "#e9c46a") + path("M68 18 L88 24 L88 88 L68 82 Z", "#d4ab48") +
+        path("M16 70 q8 -8 16 0 q9 -8 18 0 q9 -8 18 0 q8 -8 16 0", "none", {stroke:"#3d6b4f","stroke-width":3}) + circ(76,36,5,"#e25c4a",{"stroke-width":1.5}); },
+      face:[50,48,10], lim:[12,88,52,96] },
+    kagurasuzu: { body: function(){ return path("M50 66 Q30 76 22 92 M50 66 Q70 76 78 92", "none", {stroke:"#5e8f63","stroke-width":3}) + path("M50 66 Q40 80 36 94 M50 66 Q60 80 64 94", "none", {stroke:"#e25c4a","stroke-width":3}) +
+        rect(45,56,10,26,"#c0392b",3) + [[50,10],[38,20],[62,20],[28,34],[72,34],[26,50],[74,50]].map(function(p){ return circ(p[0],p[1],6,"#e0b43c",{"stroke-width":2}); }).join("") + circ(50,40,17,"#e8c04a"); },
+      face:[50,40,7], lim:[33,67,46,98] },
+    tamaeda: { body: function(){ return path("M30 92 Q50 80 70 92 Z", "#dfe4ea") + line(50,90,50,52,"#d9b340",6) + line(50,70,26,52,"#d9b340",4) + line(50,66,76,46,"#d9b340",4) +
+        circ(24,50,6,"#ffffff") + circ(78,44,6,"#ffffff") + circ(32,62,4.5,"#f59ab2",{"stroke-width":2}) + circ(70,60,4.5,"#7fd1e8",{"stroke-width":2}) + circ(50,38,16,"#bfe9f5") + path("M42 30 q5 -5 10 -4", "none", {stroke:"#fff","stroke-width":2.5}); },
+      face:[50,40,6], lim:[34,66,44,96] },
+    masukagami: { body: function(){ return path("M30 92 L70 92 L64 80 L36 80 Z", "#6b4a2a") + line(50,74,50,80,O,4) + circ(50,42,32,"#c9b27a") + circ(50,42,24,"#eef2f5") +
+        path("M36 32 q6 -8 14 -8", "none", {stroke:"#ffffff","stroke-width":3}) + path("M50 74 L44 86 M50 74 L56 86", "none", {stroke:"#c0392b","stroke-width":2.5}); },
+      face:[50,46,10], lim:[18,82,46,97] },
     kaioke: { body: function(){ return path("M26 32 L74 32 L82 42 L82 80 L74 88 L26 88 L18 80 L18 42 Z", "#1f1f28") + path("M24 22 L76 22 L86 32 L14 32 Z", "#2b2b36") +
         path("M30 80 Q36 68 42 80 Z", "#d9b340", {"stroke-width":1.5}) + path("M58 80 Q64 68 70 80 Z", "#f4c7b5", {"stroke-width":1.5}) + line(18,42,82,42,"#d9b340",1.5) +
         path("M50 22 L50 14 M44 14 Q50 8 56 14", "none", {stroke:"#c0392b","stroke-width":3}); },
